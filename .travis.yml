@@ -33,7 +33,7 @@ notifications:
 
 deploy:
   provider: pages
-  local-dir: ./site
+  local-dir: ./_site
   email:  2044858+behuf@users.noreply.github.com
   name: behuf
   skip-cleanup: true

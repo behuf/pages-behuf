@@ -1,0 +1,60 @@
+collections:
+    users:
+    tags:
+        output: true
+
+
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+  - jekyll-paginate-v2
+
+
+title: behuf
+description: Digitalisierung und Softwareentwicklung
+url: http://www.behuf.de
+lang: DE
+
+
+autopages:
+  enabled: true
+  tags: 
+    layouts: 
+      - tags.html
+     # - autopage_tags.html
+    enabled: true
+  categories: 
+    enabled: false
+  collections: 
+    enabled: false
+
+
+# Produces a cleaner folder structure when using categories
+permalink: /meinung/:year/:month/:title.html
+paginate_path: "/meinung/page/:num/"
+
+# Pagination Settings
+pagination:
+  enabled: true
+  per_page: 5
+  permalink: 'page/:num/'
+  title: ':title - seite :num / :max'
+  limit: 0
+  sort_field: 'date'
+  sort_reverse: true
+
+
+defaults:
+  - 
+    scope:
+      path: "" # an empty string here means all files in the project
+      type: "posts" # previously `post` in Jekyll 2.2.
+    values:
+      layout: "meinung"
+  - 
+    scope:
+      path: "" # an empty string here means all files in the project
+    values:
+      sitemap: false
+
+exclude: [vendor]

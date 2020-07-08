@@ -1,0 +1,32 @@
+
+{% assign searchInputElementId = include.searchElement  %}
+{% assign resultContainerElementId = include.searchResult %}
+{% assign searchResultTemplate = include.searchResultTemplate  %}
+{% assign noResultsText = include.noResultsText  %}
+
+{% if searchInputElementId == nil %} {% assign searchInputElementId = 'search-input-header' %} {% endif %}
+{% if resultContainerElementId == nil %} {% assign resultContainerElementId = 'results-container-header'  %} {% endif %}
+{% if searchResultTemplate == nil %} {% assign searchResultTemplate = '<li><a class="dropdown-item" href="{url}">{title}</a></li>' %} {% endif %}
+{% if noResultsText == nil %} {% assign noResultsText = '<li class="dropdown-item">Keine Einträge gefunden</li>' %} {% endif %}
+
+<script>
+    var sjs = SimpleJekyllSearch({
+      searchInput: document.getElementById('{{ searchInputElementId }}'),
+      resultsContainer: document.getElementById('{{ resultContainerElementId }}'),
+      json: '/search-data.json',
+      searchResultTemplate: '{{ searchResultTemplate }}',
+      noResultsText: '{{ noResultsText }}',
+      templateMiddleware: function(prop, value, template) {
+
+        var searchString = document.getElementById('{{ searchInputElementId }}').value;
+        console.log(searchString);
+        if ( prop === "title" ) {
+            var re = new RegExp(searchString, 'i');
+            return value.replace(re, function(m){ return '<span class="badge-warning">'+m+'</span>';})
+        }
+        else {
+            return value;
+        }
+      }
+    });
+</script>

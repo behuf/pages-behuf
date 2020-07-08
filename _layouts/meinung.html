@@ -1,0 +1,14 @@
+---
+layout: default
+---                    
+<h1>{{ page.title }}</h1>
+
+{% include post_message_tags.html tags=page.tags %}
+<div class="mt-2">
+
+        {{ content }}
+</div>
+
+
+{% include social-buttons.html %}
+{% include post_message_header.html %}

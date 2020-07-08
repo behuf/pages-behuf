@@ -1,0 +1,17 @@
+- name: Home
+  link: /  
+- name: Meinung
+  link: /meinung
+- name: Portfolio
+  link: /portfolio.html
+- name: Fallstudie
+  link: /fallstudie.html
+- name: Historie
+  link: /historie.html
+- name: Kontakt
+  link: /kontakt.html
+- name: devider
+- name: Datenschutz
+  link: /datenschutz.html
+- name: Impressum
+  link: /impressum.html

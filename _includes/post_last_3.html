@@ -1,0 +1,37 @@
+<div class="card">
+    <div class="card-header">
+      Aktuelles
+    </div>
+    <div class="card-body">
+
+    {% assign sortedLast = (site.posts | sort: "date" | reverse)  %}    
+    {% for post in sortedLast limit:3 %}
+    <article class="container-fluid ml-0 pl-0 flex">
+          <div class="row">
+              <div class="col-auto">
+                  <a href="{{ post.url | relative_url }}" class="primary">
+                      <h5 class="font-weight-bold">{{ post.title | escape }}</h5>
+                  </a>
+              </div>
+          </div>
+          <div class="row">
+              <div class="col ">
+                      <span>{{ post.excerpt }}</span>       
+              </div>
+          </div>    
+          <div class="container-fluid">
+              <div class="row">
+                  <div class="col justify-content-center  m-0 p-0">
+                        {% include post_message_tags.html tags=post.tags %}
+                  </div>
+              </div>
+
+          </div>    
+    </article>
+    {% if forloop.last == false %}
+    <hr>
+
+    {% endif %}
+  {% endfor %}
+    </div>
+  </div>

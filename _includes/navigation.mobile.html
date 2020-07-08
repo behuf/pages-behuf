@@ -1,0 +1,19 @@
+<ul class="list-unstyled  d-flex flex-column justify-content-center align-items-center">
+    {% for item in site.data.navigation %}
+        {% if item.name == "devider" %}
+            <hr />
+        {% else %}
+        {% assign itemLink = (item.link | remove: "/index.html")  %}
+        {% assign itemLink = (itemLink | remove: ".html")  %}
+        
+        {% assign pageUrl = (page.url | remove: "/index.html")  %}
+        {% assign pageUrl = (pageUrl | remove: ".html")  %}
+
+        <li {% if pageUrl == itemLink %}class="active nav-item"{% else %} class="nav-item"{% endif %} >
+                <a href="{{ item.link }}">
+                    {{ item.name }}
+                </a>
+            </li>
+        {% endif %}
+    {% endfor %}
+</ul>

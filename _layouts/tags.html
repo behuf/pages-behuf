@@ -1,0 +1,15 @@
+---
+layout: default
+autopages:
+  permalink: /tag/:tag
+pagination:
+  enabled: true
+  collection: all
+  debug: false
+---
+{% assign system_tag = site.tags | where: "name", page.autopages.display_name | first %}
+
+<h1 class="mb-5"><span class="{{ system_tag.class }}">{{ page.autopages.display_name }}</span></h1>
+
+
+{% include paginator.html %}

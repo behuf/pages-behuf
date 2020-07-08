@@ -1,0 +1,12 @@
+- name: slack
+  link: /
+  icon: /assets/images/slack.svg
+- name: twitter
+  link: /
+  icon: /assets/images/twitter.svg
+- name: github
+  link: /
+  icon: /assets/images/github.svg
+- name: linkedin
+  link: /
+  icon: /assets/images/linkedin.svg

@@ -1,1 +1,1 @@
-# pages-behuf
+# behuf.github.io

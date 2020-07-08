@@ -1,0 +1,14 @@
+
+{% for tag in include.tags %}
+    {% assign system_tag = site.tags | where: "name", tag | first %}
+
+    {% if system_tag %}
+      
+        <a href="/tag/{{ system_tag.name }}">
+            <span class="{{ system_tag.class }} mr-1">{{ tag }}</span>
+        </a>
+    {% else %}
+        <span class="badge badge-danger mr-1">{{ tag }}</span>
+    {% endif %}
+    
+{% endfor %}

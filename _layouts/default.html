@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    {% include head.html %}
+    <body  style="max-width: 1750px !important;">
+    
+        
+        {% include navigation.header.html %}
+
+        <!-- Back to top button -->
+        <a id="top-button"></a>
+
+        <div class="container-fluid">
+            <div class="row  d-block d-lg-none ">
+                    <div class="col-auto">
+                            {% include navigation.mobile.html %}
+                    </div>
+            </div>
+
+            <div class="row">
+     
+                    <div id="sidebar" class="col-auto d-none d-lg-block" style="width:150px;">
+                            {% include navigation.html %}
+                    </div>
+                    <div class="col col-lg-8 col-12" style="margin-top: 5px;" >
+                        {{ content }}
+                    </div>
+                    <div class="col p-0 d-none d-lg-block " style="max-width: 250px; margin-top: 5px;">
+                        {% include post_last_3.html %}
+                    </div>
+            </div>
+
+        </div>
+
+
+        
+
+        {% include footer.html %}
+    </body>
+</html>

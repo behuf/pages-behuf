@@ -1,0 +1,54 @@
+---
+layout: default 
+title: Kontakt
+sitemap: true
+---
+<div class="container-fluid ml-8 mt-5">
+        <h1>Schreiben Sie mir paar Zeilen über Ihr Vorhaben<br/> und wie ich Sie <span class="bg-dark text-white">unterstützen</span> kann.</h1>
+</div>
+
+<!-- div class="container-fluid ml-8 mt-5" >
+
+    <div  class="callout callout-warning bg-light" style="max-width: 550px;">
+        <h4>Wichtiger Hinweis</h4>
+        <p>Zurzeit funktioniert die Kontaktaufnahmemöglichkeit nicht und befindet sich in Fertigstelltung. Bitte senden Sie mir eine E-Mail oder kontaktieren Sie mich über Slack, LinkedIn usw.
+            Die Links hierzu finden Sie im Kopfbereich der Seite.
+        </p>
+    </div>
+    
+    
+</div -->
+
+
+<div class="container-fluid">
+<div class="row">
+    <div class="col-lg-8 col-xs-auto">
+        <form id="fs-frm" name="simple-contact-form" accept-charset="utf-8" 
+        action="https://formspree.io/mjvaaazw"
+        method="POST">
+    <fieldset id="fs-frm-inputs">
+            <div class="form-group">
+                    <label for="full-name">Ihr Name</label>
+                    <input class="form-control form-control-lg" type="text" name="name" id="full-name" 
+                            placeholder="Vor- und Nachname" required="">
+            </div>
+            <div class="form-group">
+                    <label for="email-address">Ihre E-Mail</label>
+                    <input class="form-control form-control-lg" type="email" name="_replyto" id="email-address" 
+                    placeholder="email@firma.de" required="">
+            </div>
+            <div class="form-group">
+                    <label for="message">Ihre Nachricht</label>
+                    <textarea class="form-control form-control-lg" rows="5" name="message" id="message" 
+                    placeholder="Schreiben Sie mir bitte hier Ihr Anliegen" required=""></textarea>
+               
+            </div>
+     
+         <input type="hidden" name="_subject" id="email-subject" value="Contact Form Submission">
+    </fieldset>
+    <input class="btn btn-success  btn-lg" type="submit" value="Senden">
+  </form>
+    </div>
+</div>
+   
+</div>

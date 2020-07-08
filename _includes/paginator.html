@@ -1,0 +1,46 @@
+
+
+{% for post in paginator.posts %}
+  <article>
+    <div class="container-fluid ml-0 pl-0 flex">
+        <div class="row">
+            <div class="col">
+                <a  href="{{ post.url | relative_url }}"  class="primary">
+                    <h3 class="font-weight-bold">{{ post.title | escape }}</h3>
+                </a>
+            </div>
+            <div class="col-auto"> 
+                    {% include post_message_tags.html tags=post.tags %}
+                    
+                </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                    <p class="article-text">{{ post.excerpt }}</p>       
+            </div>
+        </div>    
+            
+    </div>
+  </article>
+  {% if forloop.last == false %}
+  <hr>
+
+  {% endif %}
+{% endfor %}
+
+
+{% if paginator.total_pages > 1 %}
+
+<ul class="pagination">
+  {% if paginator.previous_page %}
+  <li class="page-item">
+      <a class="page-link bg-secondary  text-white" href="{{ paginator.previous_page_path | prepend: site.baseurl | replace: '//', '/' }}">Neuere Beiträge</a>
+  </li>
+  {% endif %}
+  {% if paginator.next_page %}
+  <li class="page-item">
+      <a class="page-link bg-secondary text-white" href="{{ paginator.next_page_path | prepend: site.baseurl | replace: '//', '/' }}">Ältere Beiträge</a>
+  </li>
+  {% endif %}
+</ul>
+{% endif %}

@@ -1,0 +1,11 @@
+{% assign cardImage = include.cardImage  %}
+{% assign cardTitle = include.cardTitle %}
+{% assign cardText = include.cardText  %}
+
+<div class="card" style="min-height: 380px;">
+        <img class="card-img-top" src="{{ cardImage }}" alt="Card image cap">
+        <div class="card-body">
+            <h6 class="card-title font-weight-bold">{{ cardTitle }}</h6>
+            <p class="card-text">{{ cardText }}</p>
+        </div>
+</div>

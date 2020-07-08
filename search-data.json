@@ -1,0 +1,43 @@
+[
+  
+    {
+      "title"    : "NodeJS - Web API mit Amazon Cognito schützen",
+      "category" : "",
+      "tags"     : "webentwicklung",
+      "url"      : "/meinung/2019/11/nodejs-web-api-mit-amazon-cognito-schuetzen.html",
+      "date"     : "2019-11-27 00:00:00 +0000"
+    } ,
+  
+    {
+      "title"    : "Entkoppeln Sie Ihre Benutzerauthentifizierung",
+      "category" : "",
+      "tags"     : "webentwicklung",
+      "url"      : "/meinung/2019/11/entkoppeln-sie-ihre-benutzerauthentifizerung.html",
+      "date"     : "2019-11-26 00:00:00 +0000"
+    } ,
+  
+    {
+      "title"    : "Qual der Wahl. Welches Datenbankschema?",
+      "category" : "",
+      "tags"     : "datenbanken, webentwicklung",
+      "url"      : "/meinung/2019/11/qual-der-wahl-datenbank-schema.html",
+      "date"     : "2019-11-15 00:00:00 +0000"
+    } ,
+  
+    {
+      "title"    : "Digitalisierung - Ein Orientierungsversuch",
+      "category" : "",
+      "tags"     : "digitalisierung",
+      "url"      : "/meinung/2019/11/digitalisierung-ein-orientierungsversuch.html",
+      "date"     : "2019-11-14 00:00:00 +0000"
+    } ,
+  
+    {
+      "title"    : "Ein neue Webseite mit Jekyll",
+      "category" : "",
+      "tags"     : "allgemein, webentwicklung",
+      "url"      : "/meinung/2019/11/eine-neue-webseite-mit-jekyll.html",
+      "date"     : "2019-11-13 00:00:00 +0000"
+    } 
+  
+]

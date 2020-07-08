@@ -1,0 +1,7 @@
+AuthUserFile /mnt/rid/06/39/510000639/htdocs/.htpasswd
+AuthGroupFile /dev/null
+AuthName Intern
+AuthType Basic
+
+require valid-user
+

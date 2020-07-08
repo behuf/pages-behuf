@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="DE"><generator uri="https://jekyllrb.com/" version="3.8.7">Jekyll</generator><link href="http://www.behuf.de/feed.xml" rel="self" type="application/atom+xml" /><link href="http://www.behuf.de/" rel="alternate" type="text/html" hreflang="DE" /><updated>2020-07-08T13:30:42+00:00</updated><id>http://www.behuf.de/feed.xml</id><title type="html">behuf</title><subtitle>Digitalisierung und Softwareentwicklung</subtitle><entry><title type="html">NodeJS - Web API mit Amazon Cognito schützen</title><link href="http://www.behuf.de/meinung/2019/11/nodejs-web-api-mit-amazon-cognito-schuetzen.html" rel="alternate" type="text/html" title="NodeJS - Web API mit Amazon Cognito schützen" /><published>2019-11-27T00:00:00+00:00</published><updated>2019-11-27T00:00:00+00:00</updated><id>http://www.behuf.de/meinung/2019/11/nodejs-web-api-mit-amazon-cognito-schuetzen</id><content type="html" xml:base="http://www.behuf.de/meinung/2019/11/nodejs-web-api-mit-amazon-cognito-schuetzen.html">&lt;p&gt;Die Authentifizierung eines Benutzers ist ein zentraler Bestandteil jeder modernen und sicheren Softwarelösung. AWS bietet mit dem Service Cognito einen zuverlässigen und skalierbarten Identity-Dienst.&lt;/p&gt;
+
+&lt;p&gt;Die Art und Weise der Anbindung ist vielseitig und flexibel. Den “Standard” Fall einer Authentifizierung und Schutz der existierenden API’s einer Web-Lösung kann man wie unten stehend exemplarisch umsetzen.&lt;/p&gt;
+
+&lt;h3 id=&quot;1-amazon-cognito-benutzerpool-vorbereiten&quot;&gt;1. Amazon Cognito Benutzerpool vorbereiten&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;Benutzerpool anlegen:&lt;/strong&gt; Auf der AWS Managementkonsole in die Verwaltung für &lt;code class=&quot;highlighter-rouge&quot;&gt;AWS Cognito&lt;/code&gt; wechseln und dort einen neuen Benutzerpool (achtung  kein Identitätenpool) mit minimalen Einstellungen anlegen.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;App-Client anlegen:&lt;/strong&gt; Nach der Erstellung des Benutzerpools für das erstelle Benutzerpool unter dem Navigationseintrag &lt;code class=&quot;highlighter-rouge&quot;&gt;App-Clients&lt;/code&gt; eine Anwendung unter der Angabe eines App-Namens anlegen und speichern.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;App-Client-Settings:&lt;/strong&gt; Nach der Erstellung des App-Clients stellen Sie die Einstellungen für den App-Client wie in der Abbildung dargestellt ein. Hintergrund dieser Anpassung ist die Aktivierung von OAuth2 und die Zulassung dieser Abläufe.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;col d-flex align-items-center justify-content-center&quot;&gt;
+    &lt;img src=&quot;/assets/images/posts/web-api-nodejs-aws-cognito/appclient-settings.png&quot; class=&quot;img-fluid center-block border border-dark&quot; /&gt;
+&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;Domäne für App-Client anlegen&lt;/strong&gt;: Unter &lt;code class=&quot;highlighter-rouge&quot;&gt;App-Integration &amp;gt; Domännamen&lt;/code&gt; eine gültige und freie domäne für die Apps angeben und speichern.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;col d-flex align-items-center justify-content-center&quot;&gt;
+    &lt;img src=&quot;/assets/images/posts/web-api-nodejs-aws-cognito/app-integration-domain-anlegen.png&quot; class=&quot;img-fluid center-block border border-dark&quot; /&gt;
+&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;Gehostete Benutzeroberfläche starten und testen&lt;/strong&gt;: Unter App-Client-Einstellungen relativ weit unten ist ein Link platziert zum Aufrufen der gehosteten Benutzeroberfläche für die Benutzeranmeldung und -registrierung. Diese Oberfläche sollte aufrufbar und funktional sein.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;col d-flex align-items-center justify-content-center&quot;&gt;
+    &lt;img src=&quot;/assets/images/posts/web-api-nodejs-aws-cognito/app-integration-hostet-login-page.png&quot; class=&quot;img-fluid center-block border border-dark&quot; /&gt;
+&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;Testbenutzer anlegen:&lt;/strong&gt; Unter dem Navigationseintrag &lt;code class=&quot;highlighter-rouge&quot;&gt;Benutzer und Gruppen&lt;/code&gt; einen Testbenutzer anlegen und aktivieren. Dieser Benutzer dienst später für die Tests und Zugriff auf die geschützten Urls Ihrer Anwendung. Hierzu nutzen wir exemplarisch die Software &lt;code class=&quot;highlighter-rouge&quot;&gt;postman&lt;/code&gt;.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;Benutzerpool-Id und Benutzerpool-Region:&lt;/strong&gt; Notieren Sie sich diese zwei Angaben aus Ihren Benutzerpool-Einstellungen. Diese zwei Angaben habe ich aus der Abbildung unkenntlich gemacht.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;col d-flex align-items-center justify-content-center&quot;&gt;
+    &lt;img src=&quot;/assets/images/posts/web-api-nodejs-aws-cognito/aws-cognito-benutzerpool-id-region.png&quot; class=&quot;img-fluid center-block border border-dark&quot; /&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Versuchen Sie an dieser Stelle möglichst Minimal-Einstellungen vorzunehmen. Diese Schritte sollten somit auch ausreichen, damit eine Kommunikation er von Ihnen erstellen Web-API in Express mit AWS sauber funktioniert.&lt;/p&gt;
+
+&lt;h3 id=&quot;2-npm-projekt-mit-typescript-unterstützung-vorbereiten&quot;&gt;2. npm Projekt mit typescript Unterstützung vorbereiten&lt;/h3&gt;
+
+&lt;p&gt;Als erstes legen wir ein neues npm Projekt an.&lt;/p&gt;
+
+&lt;p&gt;&lt;kbd&gt;&amp;gt; mkdir example-nodejs-express-api-aws-cognito&lt;/kbd&gt;
+&lt;br /&gt;
+&lt;kbd&gt;&amp;gt; cd example-nodejs-express-api-aws-cognito&lt;/kbd&gt;
+&lt;br /&gt;
+&lt;kbd&gt;&amp;gt; npm init -y&lt;/kbd&gt;&lt;/p&gt;
+
+&lt;p&gt;Damit der Code in Typescript geschrieben werden kann, aktiviere ich typescript für die Anwendung.&lt;/p&gt;
+
+&lt;p&gt;&lt;kbd&gt;&amp;gt; npm install typescript @types/typescript --save-dev&lt;/kbd&gt;&lt;br /&gt;
+&lt;kbd&gt;&amp;gt; tsc --init&lt;/kbd&gt;&lt;/p&gt;
+
+&lt;p&gt;Die vom System erzeugte &lt;code class=&quot;highlighter-rouge&quot;&gt;tsconfig.json&lt;/code&gt; Datei habe ich auf das Nötigste reduziert. Änderungen in der &lt;code class=&quot;highlighter-rouge&quot;&gt;Ordnerstruktur&lt;/code&gt; des Projektes und Anpassungen in der &lt;code class=&quot;highlighter-rouge&quot;&gt;package.json&lt;/code&gt; Datei können Sie aus der Github-Repository entnehmen.&lt;/p&gt;
+
+&lt;h3 id=&quot;3-benötigte-npm-module-installieren&quot;&gt;3. Benötigte npm-Module installieren&lt;/h3&gt;
+
+&lt;p&gt;in diesem Beispiel setzei ch drei npm-Module ein:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;express&lt;/code&gt; für die Bereitstellung der Http-Dienste&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;express-jwt&lt;/code&gt; middleware zum Validieren von JsonWebToken (JWT)&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;jwks-rsa&lt;/code&gt; eine Bibliothek zum empfangen von mit RSA signierten Schlüssel von einem JWKS (JSON Web Key Set) Endpunkt&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;dotenv&lt;/code&gt; die Bibliothek zum Laden der in der &lt;code class=&quot;highlighter-rouge&quot;&gt;.env&lt;/code&gt; definierten Variablen über &lt;code class=&quot;highlighter-rouge&quot;&gt;process.env&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;kbd&gt;&amp;gt; npm install dotenv express express-jwt jwks-rsa --save&lt;/kbd&gt;&lt;/p&gt;
+
+&lt;p&gt;Die index.ts Datei schaut dann wie folgt aus: 
+&lt;script src=&quot;https://gist.github.com/behuf/952cd07be2ac14ddf6f37be48ebe3caa.js&quot;&gt;&lt;/script&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;test-mit-postman&quot;&gt;Test mit Postman&lt;/h3&gt;
+
+&lt;p&gt;um den Zugriffsschutz zu testen, nutze ich &lt;code class=&quot;highlighter-rouge&quot;&gt;postman&lt;/code&gt;. Hierzu muss neben der Angabe der Test-Url ein Authorization-Token erstellt und mit dem Request übergeben werden.&lt;/p&gt;
+
+&lt;p&gt;Hierzu sind folgende Angaben im Fenster für Access Token nötig:&lt;/p&gt;
+
+&lt;div class=&quot;col d-flex align-items-center justify-content-center&quot;&gt;
+    &lt;img src=&quot;/assets/images/posts/web-api-nodejs-aws-cognito/get-access-token-with-postman-over-aws-cognito.png&quot; class=&quot;img-fluid center-block border border-dark&quot; /&gt;
+&lt;/div&gt;
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;Die Besonderheit an dieser Stelle ist die Url für den Aufruf des gehosteten Anmeldungsseite für die App-Client. In diesem Beispiel “beispiel-api”.&lt;/p&gt;
+
+&lt;p&gt;&lt;kbd&gt;https://beispiel-api.auth.`{AWS_Region}`.amazoncognito.com/login&lt;/kbd&gt;&lt;/p&gt;
+
+&lt;p&gt;Nach dem Klick auf Request Token, sollte die gehostete Anmeldeseite von AWS Cognito erscheinen. In diesem Fenster muss dann die in Cognito hinterlegten Zugangsdaten (Diese müssen Sie noch in Ihrem Benutzerpool anlegen) eingeben und sich anmelden.&lt;/p&gt;
+
+&lt;p&gt;Die geschützte Url &lt;code class=&quot;highlighter-rouge&quot;&gt;http://localhost:3000/about&lt;/code&gt; sollte nur mit einem gültigen Access Token ein Ergebnis zurückliefern.&lt;/p&gt;
+
+&lt;p&gt;Im Request Object &lt;code class=&quot;highlighter-rouge&quot;&gt;req&lt;/code&gt; wird zudem automatisch das verifizierte &lt;code class=&quot;highlighter-rouge&quot;&gt;user&lt;/code&gt;-object bereitgestellt.&lt;/p&gt;
+
+&lt;div class=&quot;col d-flex align-items-center justify-content-center&quot;&gt;
+    &lt;img src=&quot;/assets/images/posts/web-api-nodejs-aws-cognito/aws-cognito-express-request-user-object.png&quot; class=&quot;img-fluid center-block border border-dark&quot; /&gt;
+&lt;/div&gt;
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;quellcode&quot;&gt;Quellcode&lt;/h3&gt;
+
+&lt;p&gt;Den vollständigen Code finden Sie unter &lt;a href=&quot;https://github.com/behuf/example-nodejs-express-api-aws-cognito&quot;&gt;example-nodejs-express-api-aws-cognito&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;weblinks&quot;&gt;Weblinks&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://oauth.net/2/&quot;&gt;OAuth2&lt;/a&gt; : Protokoll für Benutzer-Autorisierung&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://openid.net/connect/&quot;&gt;OpenID Connect&lt;/a&gt; : Authentifizierungsschicht, die auf dem Autorisierungsprotokoll OAuth 2.0 basiert.&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://identityserver.io/&quot;&gt;Identity Server 4&lt;/a&gt; : Identity und Authorization Bibliothek auf .NET Basis&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/panva/node-oidc-provider&quot;&gt;oidc-provider&lt;/a&gt; : Identity und Authorization Bibliothek auf Node.js Basis&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://auth0.com/de/&quot;&gt;Auth0&lt;/a&gt; : Dienstanbieter und -hoster für Authentifizierung in eigenen Softwareprodukten&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://aws.amazon.com/de/cognito/&quot;&gt;Amazon Cognito&lt;/a&gt; : Dienstanbieter Authentifizierung in eigenen Softwareprodukten&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://docs.microsoft.com/en-us/appcenter/auth/&quot;&gt;Azure App Center Auth&lt;/a&gt; : Dienstanbieter für Authentifizierung in eigenen Softwareprodukten&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://cloud.google.com/identity&quot;&gt;Google Identity&lt;/a&gt; : Eine einheitliche Plattform für Identitäts-, Zugriffs-, Anwendungs- und Geräteverwaltung&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.datenschutzbeauftragter-info.de/authentisierung-authentifizierung-und-autorisierung/&quot;&gt;Begriffsklärung&lt;/a&gt; : Authentifizierung vs. Autorisierung&lt;/li&gt;
+&lt;/ul&gt;</content><author><name></name></author><category term="webentwicklung" /><summary type="html">Die Authentifizierung eines Benutzers ist ein zentraler Bestandteil jeder modernen und sicheren Softwarelösung. AWS bietet mit dem Service Cognito einen zuverlässigen und skalierbarten Identity-Dienst. Die Art und Weise der Anbindung ist vielseitig und flexibel. Den “Standard” Fall einer Authentifizierung und Schutz der existierenden API’s einer Web-Lösung kann man wie unten stehend exemplarisch umsetzen.</summary></entry><entry><title type="html">Entkoppeln Sie Ihre Benutzerauthentifizierung</title><link href="http://www.behuf.de/meinung/2019/11/entkoppeln-sie-ihre-benutzerauthentifizerung.html" rel="alternate" type="text/html" title="Entkoppeln Sie Ihre Benutzerauthentifizierung" /><published>2019-11-26T00:00:00+00:00</published><updated>2019-11-26T00:00:00+00:00</updated><id>http://www.behuf.de/meinung/2019/11/entkoppeln-sie-ihre-benutzerauthentifizerung</id><content type="html" xml:base="http://www.behuf.de/meinung/2019/11/entkoppeln-sie-ihre-benutzerauthentifizerung.html">&lt;p&gt;Die Authentifizierung eines Benutzers ist ein zentraler Bestandteil jeder modernen und sicheren Softwarelösung.&lt;/p&gt;
+
+&lt;p&gt;Das Thema hat sich ebenso in den letzten Jahren entscheidend weiterentwickelt. Gerade bei Weblösungen und serviceorientierten Softwarearchitekturen steht man als Entwickler vor grundlegenden Pflichtanforderungen und Erfordernissen, wenn es um Benutzeranmeldung und Authentifizierung geht.&lt;/p&gt;
+
+&lt;p&gt;Die Fragen und die zu lösenden Problemstellungen für die Authentifizierung eines Benutzers, Verwalten der angemeldeten Benutzer und Einbindung von verschiedenen Anbietern wie Google, Apple und ähnliches stellt sich unabhängig von der zu lösenden Softwarelösung und muss immer wieder neu erdacht und auch umgesetzt werden. Im Grunde müssen alle Dienste und Systeme in ähnlicher Weise die Frage nach Benutzeranmeldung lösen.&lt;/p&gt;
+
+&lt;p&gt;Einige Anforderungen aus diesem Bereich könnte man wie folgt auflisten:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Benutzer muss sich optional registrieren können&lt;/li&gt;
+  &lt;li&gt;Anmeldung des Benutzers&lt;/li&gt;
+  &lt;li&gt;Sicherheitsrelevante Themen wie die Verifizierung der Echtheit des Benutzers (Stichwort: Zwei-Faktoren-Authentifzierung oder Email-Echtheitsverifizierung)&lt;/li&gt;
+  &lt;li&gt;Password-Vergessen Funktion&lt;/li&gt;
+  &lt;li&gt;Einbindung und Integration von Benutzeranmeldungen von sozialen Netzwerken und ähnlichen Diensten (Google, Amazon, Facebook usw.)&lt;/li&gt;
+  &lt;li&gt;Verwalten und Administration von angemeldeten Benutzern&lt;/li&gt;
+  &lt;li&gt;Geräte-unabhängige Authentifizierungsinfrastruktur. (Mobile First Ansatz)&lt;/li&gt;
+  &lt;li&gt;Zeitgemäße Infrastruktur und Einhaltung der neuesten sicherheitsrelevanten Richtlinien und Konzepte (Stichwort: OAuth, OpenID Connect, zeitgemäße Verschlüsselung usw.)&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;um hier nur einige Themen zu nennen. Dieses Themenfeld in die Tiefe gedacht, kann ebenso auch komplex werden und umfangreiche Ausmaße annehmen, wenn es um verteile Systeme geht und auch darum die neuesten Technologien zum Einsatz zu bringen.&lt;/p&gt;
+
+&lt;p&gt;Es wäre also wichtig an dieser Stelle  diesen Bereich autark von der zu lösenden Software zu betrachten. Typischerweise sollte es egal sein, welche Software einen authentifizierten Benutzer benötigt. Die Dienststelle für die Benutzer-Authentifizierung sollte als ein separates “Modul” bzw. Dienst diese Aufgabe übernehmen. Die Softwaremodule, die diesen Dienst in Anspruch nehmen wollen bzw. ihre Funktionalität nur authentifizierten Benutzern zur Verfügung stellen wollen, müssen dann nur noch bei der Authentifizierungsstelle die “Echtheit” der ihnen übergebenen “Eintrittskarte” des Benutzers erfragen, sofern nötig. Somit lässt sich die Anmeldung separat behandeln und muss nicht für jede neu zu entwickelnde Softwarelösung neu erdacht und entwickelt werden. &lt;strong&gt;Die Grundprämisse in diesem Architekturansatz ist das Vertrauensverhältnis zwischen den &lt;code class=&quot;highlighter-rouge&quot;&gt;einzelnen Softwaremodulen&lt;/code&gt; und die &lt;code class=&quot;highlighter-rouge&quot;&gt;Authentifizierungsstelle&lt;/code&gt;.&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Dieser Ansatz der Entkoppelung lässt sich vereinfacht wie folgt visuell darstellen:&lt;/p&gt;
+
+&lt;div class=&quot;col d-flex align-items-center justify-content-center&quot;&gt;
+    &lt;img src=&quot;/assets/images/posts/benutzerauthentifizierung/diagramm-benutzerauthentifizierung.png&quot; class=&quot;img-fluid center-block&quot; /&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Bei den Softwaremodulen &lt;code class=&quot;highlighter-rouge&quot;&gt;Zeiterfassung&lt;/code&gt; und &lt;code class=&quot;highlighter-rouge&quot;&gt;Abrechnung&lt;/code&gt; handelt es sich um zwei autark und voneinander unabhängigen Softwaremodulen mit separaten Datenbanksystemen. Jedoch und das ist der entscheidender Punkt, vertrauen sie jeweils derselben Authentifizierungsstelle bzw. -dienst. Ein Benutzer, der sich über das Module &lt;code class=&quot;highlighter-rouge&quot;&gt;Benutzeranmeldung&lt;/code&gt; einloggt, bekommt nach erfolgreicher Verifizierung ein “Ticket” übergeben. Mit diesem Ticket kann sich der Benutzer sowohl in der Zeiterfassung als auch in der Abrechnung anmelden und mit den Softwareprodukten arbeiten, obwohl diese zwei Systeme voneinander nichts wissen.&lt;/p&gt;
+
+&lt;h2 id=&quot;basistechnologie-und-mögliche-implementierungsansätze&quot;&gt;Basistechnologie und mögliche Implementierungsansätze&lt;/h2&gt;
+
+&lt;p&gt;Technologisch betrachtet kann die &lt;code class=&quot;highlighter-rouge&quot;&gt;OAuth2&lt;/code&gt; in der Kombination mit &lt;code class=&quot;highlighter-rouge&quot;&gt;OpenId Connect&lt;/code&gt; als eine Basistechnologie für einen solchen zentralen und integrativen Authentifizierungsansatz genutzt werden. Es gibt hierzu auch für unterschiedliche Entwicklungsplattformen bereits gute und bewährte Implementierungen und Bibliotheken, die genutzt und in Softwareprojekten integriert werden können.&lt;/p&gt;
+
+&lt;p&gt;Ebenso ist es wichtig zwischen der &lt;code class=&quot;highlighter-rouge&quot;&gt;Authentifizierung&lt;/code&gt; und &lt;code class=&quot;highlighter-rouge&quot;&gt;Autorisierung&lt;/code&gt; eines Benutzers zu unterscheiden. Während die Authentifizierung sich mit der reinen “Identitätsprüfung” befasst, geht es bei der Autorisierung um Berechtigungsprüfungen innerhalb einer Softwarelogik für einen bereits authentifizierten Benutzer. Der in diesem Artikel beschriebener Ansatz beschränkt sich ausschließlich auf die Authentifizierung eines Benutzers und behandelt somit nicht die Autorisierung.&lt;/p&gt;
+
+&lt;h2 id=&quot;auslagern-der-implementierung&quot;&gt;Auslagern der Implementierung&lt;/h2&gt;
+
+&lt;p&gt;Auch die Idee der technologischen Auslagerung der Benutzerauthentifizierung bei den entsprechenden “Providern” ist ein denkbarer Ansatz. Eine quasi Outsourcing dieser Idee. Die Integration von “fertigen” Lösungen bringt sehr viele Vorteile mit sich und macht Sie in der Entwicklung effizienter und hilft Ihnen dabei, sich auf Ihre Kernkompetenz und die eigentliche Softwarelogik zu konzentrieren. Es gibt hierzu zahlreiche Anbieter, die Cloud-Lösungen anbieten. Die meines Erachtens zwei wichtigsten und mir bekannten Systeme und Anbieter hab ich unten verlinkt. Mutig behaupte ich persönlich, dass der Ansatz der ausgelagerten und gehosteten Authentifizierung in den Softwarelösungen der Zukunft durchsetzen wird.&lt;/p&gt;
+
+&lt;h2 id=&quot;weblinks&quot;&gt;Weblinks&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://oauth.net/2/&quot;&gt;OAuth2&lt;/a&gt; : Protokoll für Benutzer-Autorisierung&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://openid.net/connect/&quot;&gt;OpenID Connect&lt;/a&gt; : Authentifizierungsschicht, die auf dem Autorisierungsprotokoll OAuth 2.0 basiert.&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://identityserver.io/&quot;&gt;Identity Server 4&lt;/a&gt; : Identity und Authorization Bibliothek auf .NET Basis&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/panva/node-oidc-provider&quot;&gt;oidc-provider&lt;/a&gt; : Identity und Authorization Bibliothek auf Node.js Basis&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://auth0.com/de/&quot;&gt;Auth0&lt;/a&gt; : Dienstanbieter und -hoster für Authentifizierung in eigenen Softwareprodukten&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://aws.amazon.com/de/cognito/&quot;&gt;Amazon Cognito&lt;/a&gt; : Dienstanbieter Authentifizierung in eigenen Softwareprodukten&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://docs.microsoft.com/en-us/appcenter/auth/&quot;&gt;Azure App Center Auth&lt;/a&gt; : Dienstanbieter für Authentifizierung in eigenen Softwareprodukten&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://cloud.google.com/identity&quot;&gt;Google Identity&lt;/a&gt; : Eine einheitliche Plattform für Identitäts-, Zugriffs-, Anwendungs- und Geräteverwaltung&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.datenschutzbeauftragter-info.de/authentisierung-authentifizierung-und-autorisierung/&quot;&gt;Begriffseklärung&lt;/a&gt; : Authentifizierung vs. Autorisierung.&lt;/li&gt;
+&lt;/ul&gt;</content><author><name></name></author><category term="webentwicklung" /><summary type="html">Die Authentifizierung eines Benutzers ist ein zentraler Bestandteil jeder modernen und sicheren Softwarelösung.</summary></entry><entry><title type="html">Qual der Wahl. Welches Datenbankschema?</title><link href="http://www.behuf.de/meinung/2019/11/qual-der-wahl-datenbank-schema.html" rel="alternate" type="text/html" title="Qual der Wahl. Welches Datenbankschema?" /><published>2019-11-15T00:00:00+00:00</published><updated>2019-11-15T00:00:00+00:00</updated><id>http://www.behuf.de/meinung/2019/11/qual-der-wahl-datenbank-schema</id><content type="html" xml:base="http://www.behuf.de/meinung/2019/11/qual-der-wahl-datenbank-schema.html">&lt;p&gt;Als ich mit der Informatik und Softwareentwicklung angefangen habe, stand eine relativ eindeutige und klare Definition von Datenbanksystemen als das Ideal-Bild einer performanten und strukturierten Geschäftsanwendung.&lt;/p&gt;
+
+&lt;p&gt;Der Taktgeber in allen Softwarearchitekturen und Entwicklungsabteilungen war das relationale Datenbankschema in der Kombination mit den allesamt hochgepriesenen und dringend notwendigen &lt;code class=&quot;highlighter-rouge&quot;&gt;Normalisierung&lt;/code&gt; &lt;a href=&quot;https://de.wikipedia.org/wiki/Normalisierung_(Datenbank)&quot;&gt;Link&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Klar und sinnvoll. Daten systematisch zu speichern und Datenredundanz möglichst zu verhindern war und ist heute noch ein wichtiger Grundsatz des Datenbankdesigns. Das Spannungsfeld zwischen der &lt;em&gt;Performanceverlust&lt;/em&gt; und Erhöhung der &lt;em&gt;Komplexität&lt;/em&gt; bei der Verarbeitung der Daten aufgrund der notwendigen Normalisierung einerseits und die &lt;em&gt;Qualität der persistierten Daten&lt;/em&gt; in einer normalisierten Form andererseits stelle die Entwicklung einer Software und damit einhergehender Entscheidung in der maximal notwendigen Tiefe der Normalisierungstufen immer wieder vor großen Herausforderungen.&lt;/p&gt;
+
+&lt;p&gt;Mit der Zeit jedoch entwickelte sich auch die Softwareentwicklung weiter. Internet und damit einhergehenden Möglichkeiten definierten die Softwareentwicklung neu. Neue Architekturansätze kamen vermehrt zum Tragen. Neue Fragestellungen wie die Art und Weise der Organisation der vom Anwender produzierten Daten mussten gelöst werden. Software heute funktioniert vermehrt standortsunabhängig und die Idee der Plattformen nimmt auch für die Geschäftswelt immer mehr Einzug. Der Anspruch schnell auf Veränderungen zu reagieren und gar teile einer Lösung gänzlich durch andere Teillösungen zu ersetzen ist keine Seltenheit. Ebenso und auch aufgrund der hohen Reichweite entstehen große Datenbankmengen, die auch an unterschiedlichen Standorten unterschiedliche Abruffrequenzen aufweisen. Die Softwareprodukte werden immer mehr in ihren Einzelteilen “zerlegt” (Stichwort: MicroServices) und sollten jeweils für sich und autark und möglichst hoch skalierbar und performant lauffähig sein. Tauscht man diese Dienste durch neuere Entwicklungen und Dienste aus, soll dies nicht zum Zusammenbruch des Gesamten Systems führen.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Dokumentenbasierte Datenbanken&lt;/code&gt; &lt;a href=&quot;https://de.wikipedia.org/wiki/Dokumentenorientierte_Datenbank&quot;&gt;Link&lt;/a&gt; reihen sich hier als eine sinnvolle Ergänzung und Option ein und bereichen das Leben der Entwickler und man kann durchaus behaupten, dass sie in den letzten Jahren einen phänomenalen Siegeszug feiern konnten.&lt;/p&gt;
+
+&lt;p&gt;Datensätze werde nicht mehr als Datensätze mit Spalten und Relationen nach einem festen verbindlichen Schema persistiert. Das Dokument samt Inhalt ist die Maßgabe und wird in einem “Schrank” abgelegt und kann jederzeit abgerufen werden. Schema? Egal!&lt;/p&gt;
+
+&lt;p&gt;So und nun kommt natürlich die Frage, für welches Konzept entscheide ich mich als Architekt und Entwickler, wenn ich eine neue Software aufsetzen möchte? Nun eine einfache Antwort auf diese Frage gibt es leider nicht. Im Grunde müsste man diese Frage viel mehr von der Architektur der aufgesetzten Software und existierenden Anforderung abhängig machen.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Die dokumentenbasierten Datenbanksysteme sehe ich persönlich &lt;em&gt;nicht&lt;/em&gt; als eine logische Weiterentwicklung der relationalen Datenbanken, die diese obsolet machen sollte.&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Es ist eine neue Entwicklung als Option. Und dabei würde ich es auch belassen.&lt;/p&gt;
+
+&lt;p&gt;Ein für mich sehr wesentlicher Vorteil von dokumentenbasierten Datenbanken ist ihre Schemalosigkeit. Das macht die Entwicklung und Ausrollung von neueren Versionen ohne möglichen Migrationsbrüche flüssiger. Der schemalose Ansatz verlagert mehr und mehr die Logik samt Struktur Richtung Code und Geschäftslogik und macht die Entwicklung unabhängiger von der Persistenzschickt der Softwarelösung. Das ist zweifelsohne ein großer Vorteil.&lt;/p&gt;
+
+&lt;p&gt;Natürlich verändert auch eine dokumentenbasierte Ablage der Informationen die Art und Weise der Abfragen und Auswertung der vorhandenen Datensätze. Gerade wenn es darum geht, Datensätze für Auswertungen zusammenzuführen, müssten bei einem nicht relationalen Schema neue Ansätze entwickelt und gefahren werden. Ein einfaches “Join” zwischen den Tabellen und Untertabellen ist nicht mehr der absolute Ansatz für eine von MicroService und Web dominierten Softwarearchitektur. Softwarezellen stehen für sich und autark; samt Daten.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Ich nenne diese Entwicklung für mich als eine Art systemische “Denormalisierung” für eine unabhängigere und performantere Datenverarbeitung.&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Der Preis dafür =&amp;gt; die einfache Auswertbarkeit der Daten aus unterschiedlichen “Bereichen”. Hier müssen die Dienste und Daten aus den jeweiligen Diensten manuell “zusammengetragen” werden. Und das geht nicht mehr per Knopfdruck.&lt;/p&gt;
+
+&lt;h2 id=&quot;fazit&quot;&gt;Fazit&lt;/h2&gt;
+
+&lt;p&gt;Es ist nicht möglich in einem Artikel auf alle Aspekte dieser Technologie-Entscheidung einzugehen. Relational oder Nicht Relational ist eine Entscheidung, die immer wieder neu bewertet und getroffen werden muss.&lt;/p&gt;
+
+&lt;p&gt;Für mich ist die dokumentenbasierte Ablage näher an den Realitäten der Geschäftswelt und spiegelt eher den klassischen Umgang mit Dokumenten und Informationen aus der realen Welt wieder. Mit Vor- und Nachteilen, die es mit sich bringt. Früher haben wir ja unsere Rechnungen genauso in Leitzordnern abgelegt. Schemalos bedeutet für mich auch die konsequente Fortführung dieser altbewährten Art der “Datenverarbeitung”. Jedoch digital und systemisch. Bei der richtigen Umsetzung auch auswertbar und im Kern erweiterbar.&lt;/p&gt;</content><author><name></name></author><category term="datenbanken" /><category term="webentwicklung" /><summary type="html">Als ich mit der Informatik und Softwareentwicklung angefangen habe, stand eine relativ eindeutige und klare Definition von Datenbanksystemen als das Ideal-Bild einer performanten und strukturierten Geschäftsanwendung.</summary></entry><entry><title type="html">Digitalisierung - Ein Orientierungsversuch</title><link href="http://www.behuf.de/meinung/2019/11/digitalisierung-ein-orientierungsversuch.html" rel="alternate" type="text/html" title="Digitalisierung - Ein Orientierungsversuch" /><published>2019-11-14T00:00:00+00:00</published><updated>2019-11-14T00:00:00+00:00</updated><id>http://www.behuf.de/meinung/2019/11/digitalisierung-ein-orientierungsversuch</id><content type="html" xml:base="http://www.behuf.de/meinung/2019/11/digitalisierung-ein-orientierungsversuch.html">&lt;p&gt;Dieser Begriff ist heutzutage in aller Munde. Und in vielen Unternehmen und Organisationen, gibt es auch bereits Ansätze und Ideen oder gar konkrete Umsetzungen, die bereits “digital” funktionieren.&lt;/p&gt;
+
+&lt;p&gt;Doch was genau ist mit Digitalisierung gemeint und wie kann ich mich als Unternehmer und Entscheider in diesem Wirrwarr der Möglichkeiten und Begriffe orientieren.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Ausgangspunkt:&lt;/strong&gt; Digitalisierung bedeutet für mich im Ersten Schritt und im Kern, die Aktivitäten und Prozesse und die hierzu notwendigen Daten in irgendeiner Form &lt;em&gt;digital&lt;/em&gt; abzubilden und zu verarbeiten. Daraus ergibt sich also zwangsläufig die Notwendigkeit sich mit der eigenen IT-Infrastruktur auseinander zu setzen und diese auf Prüfstand zu stellen. &lt;strong&gt;Digital ohne IT geht irgendwie nicht.&lt;/strong&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;bestandaufnahme&quot;&gt;Bestandaufnahme&lt;/h2&gt;
+
+&lt;p&gt;Von diesem Ausgangspunkt ausgehend ergeben sich weitere Dimensionen und Fragestellungen für die praktische Umsetzung:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;Prozesse und Daten:&lt;/strong&gt; Machen Sie sich ein Bild von Ihren Prozessen und Daten, die Sie für den Geschäftsalltag als relevant einstufen. Beispiele hierfür wären &lt;code class=&quot;highlighter-rouge&quot;&gt;Rechnungsprüfung&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;Versand von Kontobewegungen an Steuerberater&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;täglicher Versand einer Forderungsliste an Bereichsleiter&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;Zeiterfassung der Mitarbeiter&lt;/code&gt; usw.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;Kommunikationswege:&lt;/strong&gt; Welche notwendigen Knotenpunkte der externen und internen Kommunikation gibt es bereits heute im Unternehmen? Hier sollten nicht die Daten und Dokumente im Vordergrund stehen im ersten Schritt, sondern eher die Beteiligten einer geschäftsrelevanten Kommunikation und deren Kommunikationswege. &lt;code class=&quot;highlighter-rouge&quot;&gt;Steuerberater und int. Buchhaltung&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;Anwesenheitsmeldung der Mitarbeiter&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;Unternehmensweite Meldungen und Benachrichtigungen&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;Informationsaustausch mit dem Kunden und Verkaufsabteilung&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;Krankmeldungen der Mitarbeiter an die Personalabteilung&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;interner Informationsaustausch zwischen den Mitarbeitern&lt;/code&gt; usw.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;Tools im Einsatz&lt;/strong&gt;: Welche Tools, Softwareprodukte oder gar Werkzeuge setzen Sie heute ein. Beispiele hierfür: &lt;code class=&quot;highlighter-rouge&quot;&gt;Buchhaltungssoftware&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;ERP-System XY&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;Exchange Server für Email und Kalender&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;lokale Netzwerklaufwerke für Ablage von Projektdaten&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;DropBox für den Austausch von Dokumenten mit externen Partnern&lt;/code&gt; usw.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;Kostenanalyse&lt;/strong&gt;: Welche Ausgaben werden regelmäßig getätigt, um den Geschäftsalltag aufrechtzuerhalten. Beispiele hierfür wären &lt;code class=&quot;highlighter-rouge&quot;&gt;Wartungskosten für Hard- und Software&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;Externe Dienstleister, die gewisse Aufgaben unterstütztend übernehmen&lt;/code&gt; usw.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;Schwachstellen benennen&lt;/strong&gt;: Welche Prozesse oder Punkte in dem alltäglichen Geschäftsbetrieb resultierend aus der oben erwähnten Bestandsaufnahme sind besonders auffällig verbesserungswürdig und breiten Ihnen am meisten Kopfzerbrechen und welche laufen besonders gut?&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;Mobilität&lt;/strong&gt;: Eine für mich wesentliche Dimension einer unternehmensweiten Digitalisierung besteht in der Erkennung und Bewertung der Notwendigkeit einer vom Arbeitsplatz unabhängigen Bearbeitung und Zugriff auf allen geschäftsrelevanten Prozessen. Wie hoch stufen Sie für sich diese Notwendigkeiten ein und in welchen Bereichen ist die Mobilität besonders wichtig?&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;grundsätzliches&quot;&gt;Grundsätzliches&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;IT-Infrastruktur&lt;/strong&gt;: Wenn es um IT-gestützte Digitalisierung der Prozesse im Unternehmen geht, ist es von besonderer Bedeutung über die Verfügbarkeit und Administration dieser Systeme und die damit verbundenen Kosten nachzudenken. Es wird zwangsläufig die Frage aufkommen, ob man die Infrastruktur selbst “hostet” oder eben auf externe Dienste in der Cloud oder ähnlich geartete Dienstleister zurückgreift.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;Datenschutz&lt;/strong&gt;: Prüfen Sie die Art und Ablageort Ihrer Daten. Angstfrei. Nur weil die Daten nicht mehr in Ihrem Serverraum stehen würden - wenn es dann so wäre - , muss das kein Hinderniss für Entscheidungen für oder gegen bestimmte Plattformen und Technologien darstellen. Die Welt verändert sich und die Möglichkeiten der Zukunft sollte man immer wertfrei in Betracht ziehen und probieren. Viele diese Neuerungen finden in einem datenschutzrechtlich geregelten Rahmen statt.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;Sicherung Ihrer Daten (Backup)&lt;/strong&gt;: Machen Sie sich Gedanken über die Art und Ablageort Ihrer regelmäßigen Datensicherungen. Erarbeiten Sie sich ein Datensicherungskonzept.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;Reduzierung der administrativen Tiefe&lt;/strong&gt;: Die IT-Systeme sowohl Software als auch Hardware sind komplex und teuer in der Wartung, Installation, Entwicklung und Pflege. Das Ziel sollte eine Reduzierung der internen administrativen Tiefe sein. Damit schaffen Sie sich Raum und Ressourcen für neue Ideen im Unternehmen und können sich auf Ihr Kerngeschäft konzentrieren, womit Sie Geld verdienen und groß geworden sind. Sehr konkret gesprochen könnte man über einen extern gehosten Mail-Server nachdenken, statt das inhouse zu hosten.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;Reduzierung der Komplexität durch Zerlegung&lt;/strong&gt;: Unterschiedliche Abteilungen erfordern unterschiedliche Notwendigkeiten an Tools und Dienste. Versuchen Sie sich von den Gedanken zu lösen alles in einem einzigen System zu verarbeiten, um den Datenaustausch und Datenbrüche zu eliminieren. Teilen Sie die Tools und Dienste und gestalten diese austauschbar. Schaffen Sie sich möglichst digitale Schnittstellen, um die Systeme miteinander zu koppeln und Daten auszutauschen. Dies ist sicherlich &lt;strong&gt;kein&lt;/strong&gt; absoluter Standpunkt, da Datenbrüche immer zu Ineffizienz führen, jedoch und immer dann, wenn die Vermeidung von Schnittstellen und Datenbrüchen dazu führt, dass am Ende ein Großes System als Monolith agiert, sollten Sie wachsam werden und die Notwendigkeit eines Monolithen auf dem Prüfstand stellen. Große Systeme machen Sie unflexibel und unbeweglich für Veränderungen in der Zukunft.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;Kommunikation&lt;/strong&gt;: E-Mail als Kommunikationsplattform ist heute kaum noch aus dem Geschäftsalltag wegzudenken. Das ist gut so, doch und hier beginnt eine Veränderung: Überlegen Sie sich genau, wo es Sinn machen würde, alternative Kommunikationsmittel im Unternehmen einzusetzen. E-Mail ist kein Mittel für Echt-Zeit-Kommunikation und somit auch nicht transparent genug. Für interne und standortneutrale Kommunikation ist oftmals sinnvoller auf alternative Tools und Plattformen zu setzen.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;Wissensdatenbank&lt;/strong&gt;: Das tagtäglich generierte Wissen im Unternehmen ist wertvoll und sollte in einer systemischen Form für alle Kollegen und Mitarbeiter bereichsübergreifend nutzbar und abrufbar gemacht werden.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;fazit&quot;&gt;Fazit&lt;/h2&gt;
+
+&lt;p&gt;Sehen Sie das Thema Digitalisierung als ein Lernprozess für sich und die Kollegen an. Nichts von den erwähnten Punkten ist absolut zu verstehen und muss immer angelehnt auf die Bedürfnisse Ihrer Organisation neu gedacht und bewertet werden. Jedoch glaube ich aus den Erfahrungen und Umsetzungen der Vergangenheit gewisse Leitfaden mit Mehrwert für mich in Sachen Digitalisierung entwickelt zu haben, die auch überwiegend positiv angenommen werden und auch einen spürbaren Mehrwert für die Unternehmen bringen.&lt;/p&gt;</content><author><name></name></author><category term="digitalisierung" /><summary type="html">Dieser Begriff ist heutzutage in aller Munde. Und in vielen Unternehmen und Organisationen, gibt es auch bereits Ansätze und Ideen oder gar konkrete Umsetzungen, die bereits “digital” funktionieren.</summary></entry><entry><title type="html">Ein neue Webseite mit Jekyll</title><link href="http://www.behuf.de/meinung/2019/11/eine-neue-webseite-mit-jekyll.html" rel="alternate" type="text/html" title="Ein neue Webseite mit Jekyll" /><published>2019-11-13T00:00:00+00:00</published><updated>2019-11-13T00:00:00+00:00</updated><id>http://www.behuf.de/meinung/2019/11/eine-neue-webseite-mit-jekyll</id><content type="html" xml:base="http://www.behuf.de/meinung/2019/11/eine-neue-webseite-mit-jekyll.html">&lt;p&gt;Die Idee war ein Webauftritt zu entwickeln. Etwas Schlichtes und ohne viel Schnickschnack. Der erste Gedanke war, die Seite in Auftrag zu geben.
+Nach Recherchen hat es nicht mehr lange gedauert, bis ich von der Idee der Beauftragung Abstand genommen habe.&lt;/p&gt;
+
+&lt;p&gt;Der Reiz einer selbst entwickelten und selbst gehosteten Internetseite war dann doch zu groß.&lt;/p&gt;
+
+&lt;p&gt;Zwei Grundfragen am Anfang standen im Raum, die beantwortet gehörten:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Welche Daten und Inhalte sollen auf der Seite dargestellt werden und wie soll das “Backend” der Seite persistiert und organisiert werden?&lt;/li&gt;
+  &lt;li&gt;Welche Bibliotheken und Tools sollen für die Darstellung der Inhalte im Browser verwendet werden und was muss die Oberfläche der Seite aus der Sicht eines modernen Webauftritts als Mindestvoraussetzung erfüllen?&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;backend-und-plattform&quot;&gt;Backend und Plattform&lt;/h2&gt;
+
+&lt;p&gt;Für den Zweck Blogeinträge zu erstellen und einige einfache Präsentationsseiten mit relativ überschaubaren Textinhalten zu hinterlegen, fand ich ein CMS System zu überladen. Überladen, weil es viele Zusatzfunktionen eben nicht benötigt werden und ein solches System eben “installiert” und ggf. auch “administriert” werden müsste. Übertragung  zu anderen Hosting-Providern wäre ebenso ein Thema für den Fall, dass ich den Hosting-Provider wechseln sollte. &lt;strong&gt;Meine Idee war eine möglichst einfache und trotzdem noch dynamische Form der Seitenerstellung mit möglichst wenigen Abhängigkeiten (Datenbank, Hosting-Provider, Plattform, usw.)&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;Die Idee die Seite statisch zusammen zu setzen kam mir nach dem ich das Tool &lt;code class=&quot;highlighter-rouge&quot;&gt;Jekyll&lt;/code&gt; zufällig kennengerlernt habe. Nach einigen Tests und kurze Einarbeitung in die Idee des &lt;code class=&quot;highlighter-rouge&quot;&gt;Jekyll&lt;/code&gt; als statischen Seitengenerator hab ich mich dafür entschieden meine Webseite mit diesem System zusammen zu stellen.&lt;/p&gt;
+
+&lt;p&gt;Aus meiner bescheidenen Sicht sprechen folgende Vorteile für &lt;code class=&quot;highlighter-rouge&quot;&gt;Jekyll&lt;/code&gt;:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Der Fokus liegt absolut auf den Inhalt und Struktur der Seite&lt;/li&gt;
+  &lt;li&gt;Sowohl die Struktur als auch der Inhalt lässt sich auf Dateisystem gut und einfach abbilden und es wird kein zusätzliches Overhead benötigt.&lt;/li&gt;
+  &lt;li&gt;Das Template System kann durch die Möglichkeit der Vererbung (&lt;code class=&quot;highlighter-rouge&quot;&gt;_layouts&lt;/code&gt;) und Komposition von Teilinhalten (&lt;code class=&quot;highlighter-rouge&quot;&gt;include&lt;/code&gt;) auf einer Seite sehr flexibel und erweiterbar umgesetzt werden.&lt;/li&gt;
+  &lt;li&gt;Blog-Einträge können über das System einfach und übersichtlich abgebildet werden.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Sass&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;Liquid&lt;/code&gt; oder &lt;code class=&quot;highlighter-rouge&quot;&gt;Markdown&lt;/code&gt; sind gängige Standards im Webbereich und werden von &lt;code class=&quot;highlighter-rouge&quot;&gt;Jekyll&lt;/code&gt; autmatisch unterstützt.&lt;/li&gt;
+  &lt;li&gt;Die Seite kann durch die Anbindung an Github-Pages automatisiert von GitHub gehostet und als Repository historisierbar gesichert und sogar gehostet werden.&lt;/li&gt;
+  &lt;li&gt;Zweckbezogen benötige ich damit kein Datenbanksystem im Hintergrund.&lt;/li&gt;
+  &lt;li&gt;Sollte der Bedarf an einer Erweiterung und Umstellung auf ein CMS System doch noch bestehen, können die Templates und Inhalte relativ leicht auf ein anderes System übertragen und wiederverwendet werden.&lt;/li&gt;
+  &lt;li&gt;Gute Dokumentation und schnelle Einarbeitung.&lt;/li&gt;
+  &lt;li&gt;Deployment und Ausrollung der Seite kann sowohl manuell als auch automatisiert laufen.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Natürlich gibt es auch gewisse Einschränkungen, die eine statische Website naturgemäß mit sich bringt:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Fehlende Möglichkeit Benutzerinteraktionen wie Kontaktformulare oder Kommentarfunktion zu programmieren. (Hierzu kann man allerdings auf extern gehostete Lösungen zurückgreifen)&lt;/li&gt;
+  &lt;li&gt;Allgemeine fehlende serverseitige Verarbeitung von Geschäftslogik. (Ein Shop-System würde ich vermutlich damit nicht aufbauen)&lt;/li&gt;
+  &lt;li&gt;Technisches Verständnis für die Erstellung und Ausrollung der Seite wird benötigt.&lt;/li&gt;
+  &lt;li&gt;Installation und Einrichtung von &lt;code class=&quot;highlighter-rouge&quot;&gt;Ruby&lt;/code&gt; und &lt;code class=&quot;highlighter-rouge&quot;&gt;Jekyll&lt;/code&gt; ging anfangs nicht ganz reibungslos. Nach anfänglichen Schwierigkeiten jedoch, war es relativ klar und problemlos.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;webinterface-und-browseroberfläche&quot;&gt;Webinterface und Browseroberfläche&lt;/h2&gt;
+
+&lt;p&gt;Eine moderne und zeitgemäße Html-Seite muss auf allen Endgeräten vernünftig und angepasst dargestellt werden können. Nach dem ich mir einige Templatevorlagen im Netz angesehen habe und diese alle mich nicht zu 100% überzeugt haben, entschied ich mich, mein eigene Html-Vorlage zu entwickeln.&lt;/p&gt;
+
+&lt;p&gt;Für den Aufbau der Internetseite greife ich auf folgende Bibliotheken zu:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Bootstrap&lt;/code&gt;&lt;/strong&gt;: Eine weit verbreitete CSS Bibliothek für die Erstellung von Endgeräte-unabhängiges Layout. Der Mobile-First Ansatz und die große Bandbereite der Nutzung dieser Bibliothek hat mich überzeugt.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;JQuery&lt;/code&gt;&lt;/strong&gt;: Quasi standard im Webbereich, wenn es darum geht DOM im Browser zu manipulieren. Langjährig bewährt und von vielen tausenden Web-Entwicklern und Websites erfolgreich im Einsatz.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Font Awesome&lt;/code&gt;&lt;/strong&gt;: CSS basierte Icons kann ich damit schnell und deklarativ nutzen.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Google Fonts&lt;/code&gt;&lt;/strong&gt;: Schöne Fonts, einfache Einbindung&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;fazit&quot;&gt;Fazit&lt;/h2&gt;
+
+&lt;p&gt;Und so ist diese Seite eben entstanden. Es gibt mittlerweile sehr viele Möglichkeiten für die Erstellung von Webauftritten. Je nach Anforderung und Gegebenheiten müsste man sich natürlich für das passende System und die bessere Art entscheiden, was einem am meisten den gewünschten Mehrwert bringt.&lt;/p&gt;
+
+&lt;p&gt;Mein Ansatz für die Erstellung dieser Seite ist eher vom Pragmatismus geprägt. Es muss für mich nicht immer die technisch beste und umfangreichste Lösung sein. Das gewünschte Ergebnis muss immer der Basispunkt für Entscheidungen sein. Und der Rest ist “Beiwerk” und sollte so einfach und so reduziert wie möglich dem Zweck der Erreichung des gewünschten Ergebnisses dienen.&lt;/p&gt;
+
+&lt;h2 id=&quot;weblinks&quot;&gt;Weblinks&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://jekyllrb.com&quot;&gt;Jekyll&lt;/a&gt; : Software für die Generierung von statischen Blog-Seiten&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://jekyllrb.com/docs/deployment/&quot;&gt;Jekyll Deployment&lt;/a&gt; : Die Art und Weise der Ausrollung von Jekyll erstellen Seiten&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://fontawesome.com/&quot;&gt;Font Awesome&lt;/a&gt; : CSS basierte und deklarative Icon Einbindung&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://daringfireball.net/projects/markdown/&quot;&gt;Markdown&lt;/a&gt; : Eine weit verbreitete und vereinfachte Auszeichnungssprache für Web&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://sass-lang.com/&quot;&gt;Sass&lt;/a&gt; : CSS-Präprozessor mit Variablen, Schleifen und vielen anderen Funktionen, die Cascading Style Sheets nicht mitbringen&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://getbootstrap.com/&quot;&gt;Bootstrap&lt;/a&gt; : CSS Framework mit Mobile-First Ansatz.&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://jquery.com//&quot;&gt;JQuery&lt;/a&gt; : Javascript Bibliothek für die Bearbeitung von DOM und andere Utitlities.&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://fonts.google.com/&quot;&gt;Google Fonts&lt;/a&gt; : Web Fonts einfach einbinden.&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://shopify.github.io/liquid/&quot;&gt;Liquid&lt;/a&gt; : Templatesprache für die Erstellung von Html Seiten&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.ruby-lang.org/de/&quot;&gt;Ruby&lt;/a&gt; : Basis-Framework von Jekyll&lt;/li&gt;
+&lt;/ul&gt;</content><author><name></name></author><category term="allgemein" /><category term="webentwicklung" /><summary type="html">Die Idee war ein Webauftritt zu entwickeln. Etwas Schlichtes und ohne viel Schnickschnack. Der erste Gedanke war, die Seite in Auftrag zu geben. Nach Recherchen hat es nicht mehr lange gedauert, bis ich von der Idee der Beauftragung Abstand genommen habe.</summary></entry></feed>

@@ -29,3 +29,16 @@ cache: bundler # caching bundler gem packages will speed up build
 # Optional: disable email notifications about the outcome of your builds
 notifications:
   email: false
+
+
+deploy:
+  provider: pages
+  local-dir: ./site
+  email:  2044858+behuf@users.noreply.github.com
+  name: behuf
+  skip-cleanup: true
+  github-token: $GITHUB_TOKEN
+  keep-history: true
+  on:
+    branch: master
+

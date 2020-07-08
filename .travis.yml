@@ -36,7 +36,7 @@ deploy:
   local-dir: ./_site
   email:  2044858+behuf@users.noreply.github.com
   name: behuf
-  skip-cleanup: false
+  skip-cleanup: true
   github-token: $GITHUB_TOKEN
   keep-history: true
   on:

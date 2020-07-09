@@ -11,5 +11,38 @@ pagination:
 
 <h1 class="mb-5"><span class="{{ system_tag.class }}">{{ page.autopages.display_name }}</span></h1>
 
+{% for post in site.posts %}
 
-{% include paginator.html %}
+    {% if post.tags contains page.autopages.display_name %}
+                   
+        <article>
+            <div class="container-fluid ml-0 pl-0 flex">
+                <div class="row">
+                    <div class="col">
+                        <a  href="{{ post.url | relative_url }}"  class="primary">
+                            <h3 class="font-weight-bold">{{ post.title | escape }}</h3>
+                        </a>
+                    </div>
+                    <div class="col-auto"> 
+                            {% include post_message_tags.html tags=post.tags %}
+                            
+                        </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                            <p class="article-text">{{ post.excerpt }}</p>       
+                    </div>
+                </div>    
+                    
+            </div>
+        </article>
+        {% if forloop.last == false %}
+        <hr>
+        {% endif %}
+
+    {% endif %}
+
+{% endfor %}
+
+
+<!-- {% include paginator.html %} -->

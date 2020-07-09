@@ -1,15 +1,6 @@
 <!DOCTYPE html>
 <html>
     <head>
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-172140601-1"></script>
-<script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'UA-172140601-1');
-</script>
-    
-
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
@@ -593,27 +584,57 @@ Geb&auml;ude 33<br />
 <script src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js" data-cfasync="false"></script>
 <script src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js" data-cfasync="false"></script>
 <script>
-window.cookieconsent.initialise({
-  palette: {
-    "popup": {
-      "background": "#edeff5",
-      "text": "#838391"
-    },
-    "button": {
-      "background": "transparent",
-      "text": "#4b81e8",
-      "border": "#4b81e8"
+
+    function addGoogleAnalytics() {
+        var ga_script_tag = document.createElement('script');
+        ga_script_tag.setAttribute('src','https://www.googletagmanager.com/gtag/js?id=UA-172140601-1');
+        ga_script_tag.setAttribute("async", ""); 
+
+        document.head.appendChild(ga_script_tag);
+        var ga_script_code = document.createElement('script');
+        ga_script_code.textContent = `
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'UA-172140601-1');
+        `;
+
+        document.head.appendChild(ga_script_code);
     }
-  },
-  type: "opt-in",
-  position: "bottom-right",
-  content: {
-    message: "Auf dieser Website werden Daten wie z.B. Cookies gespeichert, um wichtige Funktionen der Website, einschließlich Analysen, Marketingfunktionen und Personalisierung zu ermöglichen.",
-    link: "Mehr Informationen",    
-    allow: 'ERLAUBEN',
-    deny: 'nicht erlauben',
-  }
-});
+        
+    window.cookieconsent.initialise({
+    palette: {
+        "popup": {
+        "background": "#edeff5",
+        "text": "#838391"
+        },
+        "button": {
+        "background": "transparent",
+        "text": "#4b81e8",
+        "border": "#4b81e8"
+        }
+    },
+    onInitialise: function(status) { 
+        if ( status === "allow") {
+            addGoogleAnalytics();
+        }
+    },
+    onStatusChange: function(status, chosenBefore) { 
+        if ( status === "allow") {
+            addGoogleAnalytics();
+        }
+    },
+    type: "opt-in",
+    position: "bottom-right",
+    content: {
+        message: "Auf dieser Website werden Daten wie z.B. Cookies gespeichert, um wichtige Funktionen der Website, einschließlich Analysen, Marketingfunktionen und Personalisierung zu ermöglichen.",
+        link: "Mehr Informationen",    
+        allow: 'ERLAUBEN',
+        deny: 'nicht erlauben',
+        policy: 'Cookie Richtlinie'
+    }
+    });
 </script>
 
     </body>

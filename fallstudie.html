@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html>
     <head>
-    <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-172140601-1"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'UA-172140601-1');
-    </script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-172140601-1');
+</script>
+    
 
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
@@ -35,7 +35,7 @@
     <link rel="stylesheet" href="/assets/css/styles.css">
     <script src="https://cdn.rawgit.com/christian-fei/Simple-Jekyll-Search/master/dest/simple-jekyll-search.min.js"></script>
     <link rel="icon" type="image/png" href="/assets/images/favicon.png">
-    
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.css" />
 </head>
     <body  style="max-width: 1750px !important;">
     
@@ -68,25 +68,25 @@
                 </li>
                 
                 <li>
-                    <a href="http://behuf.slack.com/" title="slack">
+                    <a href="http://behuf.slack.com/" title="slack" target="_blank">
                             <img src="/assets/images/slack.svg" alts="slack" width="22" height="22" >
                     </a>
                 </li>
                 
                 <li>
-                    <a href="https://twitter.com/behuf_it" title="twitter">
+                    <a href="https://twitter.com/behuf_it" title="twitter" target="_blank">
                             <img src="/assets/images/twitter.svg" alts="twitter" width="22" height="22" >
                     </a>
                 </li>
                 
                 <li>
-                    <a href="https://github.com/behuf" title="github">
+                    <a href="https://github.com/behuf" title="github" target="_blank">
                             <img src="/assets/images/github.svg" alts="github" width="22" height="22" >
                     </a>
                 </li>
                 
                 <li>
-                    <a href="https://www.linkedin.com/in/behuf/" title="linkedin">
+                    <a href="https://www.linkedin.com/in/behuf/" title="linkedin" target="_blank">
                             <img src="/assets/images/linkedin.svg" alts="linkedin" width="22" height="22" >
                     </a>
                 </li>
@@ -1023,11 +1023,25 @@ und gebucht werden.</p>
 
         
     <footer class="footer">
-            <div class="container">
-              <span class="text-muted">
-                  Alle
-              </span>
-            </div>
+
+        <div class="container text-center ">
+            
+            <ul class="list-inline m-0">
+                <li class="list-inline-item">Copyright &copy; 2020 Alle Rechte vorbehalten</li>
+                <li class="list-inline-item">&bull;</li>
+                <li class="list-inline-item"><a class="primary" href="/">Home</a></li>
+                <li class="list-inline-item">&bull;</li>
+                <li class="list-inline-item"><a class="primary" href="/kontakt.html">Kontakt</a></li>
+                <li class="list-inline-item">&bull;</li>
+                <li class="list-inline-item"><a class="primary" href="/impressum.html">Impressum</a></li>
+
+
+                
+            </ul>
+
+
+          </div>
+    
           </footer>
 
 <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js" integrity="sha384-SlE991lGASHoBfWbelyBPLsUlwY1GwNDJo3jSJO04KZ33K2bwfV9YBauFfnzvynJ" crossorigin="anonymous"></script>
@@ -1035,6 +1049,31 @@ und gebucht werden.</p>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 <script src="/assets/js/site.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js" data-cfasync="false"></script>
+<script src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js" data-cfasync="false"></script>
+<script>
+window.cookieconsent.initialise({
+  palette: {
+    "popup": {
+      "background": "#edeff5",
+      "text": "#838391"
+    },
+    "button": {
+      "background": "transparent",
+      "text": "#4b81e8",
+      "border": "#4b81e8"
+    }
+  },
+  type: "opt-in",
+  position: "bottom-right",
+  content: {
+    message: "Auf dieser Website werden Daten wie z.B. Cookies gespeichert, um wichtige Funktionen der Website, einschließlich Analysen, Marketingfunktionen und Personalisierung zu ermöglichen.",
+    link: "Mehr Informationen",    
+    allow: 'ERLAUBEN',
+    deny: 'nicht erlauben',
+  }
+});
+</script>
 
     </body>
 </html>

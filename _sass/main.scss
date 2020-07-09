@@ -23,6 +23,13 @@ body {
     background-color: #f5f5f5;
   }
 
+.behuf-logo-small {
+    background-image: url(/assets/images/static/behuf-logo-klein.png);
+    display: inline-block;
+    height: 22px;
+    width: 90px;
+}
+
 .navbar-nav > li{
     padding-left:6px;
     padding-right:4px;

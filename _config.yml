@@ -57,4 +57,5 @@ defaults:
     values:
       sitemap: false
 
+
 exclude: [vendor]

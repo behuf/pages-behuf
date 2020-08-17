@@ -1,12 +1,12 @@
 - name: slack
   link: http://behuf.slack.com/
-  icon: /assets/images/slack.svg
+  icon: assets/images/slack.svg
 - name: twitter
   link: https://twitter.com/behuf_it
-  icon: /assets/images/twitter.svg
+  icon: assets/images/twitter.svg
 - name: github
   link: https://github.com/behuf
-  icon: /assets/images/github.svg
+  icon: assets/images/github.svg
 - name: linkedin
   link: https://www.linkedin.com/in/behuf/
-  icon: /assets/images/linkedin.svg
+  icon: assets/images/linkedin.svg

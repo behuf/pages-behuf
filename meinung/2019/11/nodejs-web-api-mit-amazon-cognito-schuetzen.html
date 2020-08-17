@@ -9,7 +9,7 @@
     <link type="application/atom+xml" rel="alternate" href="http://www.behuf.de/feed.xml" title="behuf" />
     <!-- Begin Jekyll SEO tag v2.6.1 -->
 <title>NodeJS - Web API mit Amazon Cognito schützen | behuf</title>
-<meta name="generator" content="Jekyll v3.8.7" />
+<meta name="generator" content="Jekyll v3.9.0" />
 <meta property="og:title" content="NodeJS - Web API mit Amazon Cognito schützen" />
 <meta property="og:locale" content="DE" />
 <meta name="description" content="Die Authentifizierung eines Benutzers ist ein zentraler Bestandteil jeder modernen und sicheren Softwarelösung. AWS bietet mit dem Service Cognito einen zuverlässigen und skalierbarten Identity-Dienst. Die Art und Weise der Anbindung ist vielseitig und flexibel. Den “Standard” Fall einer Authentifizierung und Schutz der existierenden API’s einer Web-Lösung kann man wie unten stehend exemplarisch umsetzen." />
@@ -24,10 +24,10 @@
 <!-- End Jekyll SEO tag -->
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="/assets/css/bootstrap.css">
-    <link rel="stylesheet" href="/assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/bootstrap.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
     <script src="https://cdn.rawgit.com/christian-fei/Simple-Jekyll-Search/master/dest/simple-jekyll-search.min.js"></script>
-    <link rel="icon" type="image/png" href="/assets/images/favicon.png">
+    <link rel="icon" type="image/png" href="assets/images/favicon.png">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.css" />
 </head>
     <body  style="max-width: 1750px !important;">
@@ -400,8 +400,8 @@
 <h3 id="1-amazon-cognito-benutzerpool-vorbereiten">1. Amazon Cognito Benutzerpool vorbereiten</h3>
 
 <ul>
-  <li><strong>Benutzerpool anlegen:</strong> Auf der AWS Managementkonsole in die Verwaltung für <code class="highlighter-rouge">AWS Cognito</code> wechseln und dort einen neuen Benutzerpool (achtung  kein Identitätenpool) mit minimalen Einstellungen anlegen.</li>
-  <li><strong>App-Client anlegen:</strong> Nach der Erstellung des Benutzerpools für das erstelle Benutzerpool unter dem Navigationseintrag <code class="highlighter-rouge">App-Clients</code> eine Anwendung unter der Angabe eines App-Namens anlegen und speichern.</li>
+  <li><strong>Benutzerpool anlegen:</strong> Auf der AWS Managementkonsole in die Verwaltung für <code class="language-plaintext highlighter-rouge">AWS Cognito</code> wechseln und dort einen neuen Benutzerpool (achtung  kein Identitätenpool) mit minimalen Einstellungen anlegen.</li>
+  <li><strong>App-Client anlegen:</strong> Nach der Erstellung des Benutzerpools für das erstelle Benutzerpool unter dem Navigationseintrag <code class="language-plaintext highlighter-rouge">App-Clients</code> eine Anwendung unter der Angabe eines App-Namens anlegen und speichern.</li>
   <li><strong>App-Client-Settings:</strong> Nach der Erstellung des App-Clients stellen Sie die Einstellungen für den App-Client wie in der Abbildung dargestellt ein. Hintergrund dieser Anpassung ist die Aktivierung von OAuth2 und die Zulassung dieser Abläufe.</li>
 </ul>
 
@@ -410,7 +410,7 @@
 </div>
 
 <ul>
-  <li><strong>Domäne für App-Client anlegen</strong>: Unter <code class="highlighter-rouge">App-Integration &gt; Domännamen</code> eine gültige und freie domäne für die Apps angeben und speichern.</li>
+  <li><strong>Domäne für App-Client anlegen</strong>: Unter <code class="language-plaintext highlighter-rouge">App-Integration &gt; Domännamen</code> eine gültige und freie domäne für die Apps angeben und speichern.</li>
 </ul>
 
 <div class="col d-flex align-items-center justify-content-center">
@@ -427,7 +427,7 @@
 
 <ul>
   <li>
-    <p><strong>Testbenutzer anlegen:</strong> Unter dem Navigationseintrag <code class="highlighter-rouge">Benutzer und Gruppen</code> einen Testbenutzer anlegen und aktivieren. Dieser Benutzer dienst später für die Tests und Zugriff auf die geschützten Urls Ihrer Anwendung. Hierzu nutzen wir exemplarisch die Software <code class="highlighter-rouge">postman</code>.</p>
+    <p><strong>Testbenutzer anlegen:</strong> Unter dem Navigationseintrag <code class="language-plaintext highlighter-rouge">Benutzer und Gruppen</code> einen Testbenutzer anlegen und aktivieren. Dieser Benutzer dienst später für die Tests und Zugriff auf die geschützten Urls Ihrer Anwendung. Hierzu nutzen wir exemplarisch die Software <code class="language-plaintext highlighter-rouge">postman</code>.</p>
   </li>
   <li>
     <p><strong>Benutzerpool-Id und Benutzerpool-Region:</strong> Notieren Sie sich diese zwei Angaben aus Ihren Benutzerpool-Einstellungen. Diese zwei Angaben habe ich aus der Abbildung unkenntlich gemacht.</p>
@@ -455,17 +455,17 @@
 <p><kbd>&gt; npm install typescript @types/typescript --save-dev</kbd><br />
 <kbd>&gt; tsc --init</kbd></p>
 
-<p>Die vom System erzeugte <code class="highlighter-rouge">tsconfig.json</code> Datei habe ich auf das Nötigste reduziert. Änderungen in der <code class="highlighter-rouge">Ordnerstruktur</code> des Projektes und Anpassungen in der <code class="highlighter-rouge">package.json</code> Datei können Sie aus der Github-Repository entnehmen.</p>
+<p>Die vom System erzeugte <code class="language-plaintext highlighter-rouge">tsconfig.json</code> Datei habe ich auf das Nötigste reduziert. Änderungen in der <code class="language-plaintext highlighter-rouge">Ordnerstruktur</code> des Projektes und Anpassungen in der <code class="language-plaintext highlighter-rouge">package.json</code> Datei können Sie aus der Github-Repository entnehmen.</p>
 
 <h3 id="3-benötigte-npm-module-installieren">3. Benötigte npm-Module installieren</h3>
 
 <p>in diesem Beispiel setzei ch drei npm-Module ein:</p>
 
 <ul>
-  <li><code class="highlighter-rouge">express</code> für die Bereitstellung der Http-Dienste</li>
-  <li><code class="highlighter-rouge">express-jwt</code> middleware zum Validieren von JsonWebToken (JWT)</li>
-  <li><code class="highlighter-rouge">jwks-rsa</code> eine Bibliothek zum empfangen von mit RSA signierten Schlüssel von einem JWKS (JSON Web Key Set) Endpunkt</li>
-  <li><code class="highlighter-rouge">dotenv</code> die Bibliothek zum Laden der in der <code class="highlighter-rouge">.env</code> definierten Variablen über <code class="highlighter-rouge">process.env</code></li>
+  <li><code class="language-plaintext highlighter-rouge">express</code> für die Bereitstellung der Http-Dienste</li>
+  <li><code class="language-plaintext highlighter-rouge">express-jwt</code> middleware zum Validieren von JsonWebToken (JWT)</li>
+  <li><code class="language-plaintext highlighter-rouge">jwks-rsa</code> eine Bibliothek zum empfangen von mit RSA signierten Schlüssel von einem JWKS (JSON Web Key Set) Endpunkt</li>
+  <li><code class="language-plaintext highlighter-rouge">dotenv</code> die Bibliothek zum Laden der in der <code class="language-plaintext highlighter-rouge">.env</code> definierten Variablen über <code class="language-plaintext highlighter-rouge">process.env</code></li>
 </ul>
 
 <p><kbd>&gt; npm install dotenv express express-jwt jwks-rsa --save</kbd></p>
@@ -475,7 +475,7 @@
 
 <h3 id="test-mit-postman">Test mit Postman</h3>
 
-<p>um den Zugriffsschutz zu testen, nutze ich <code class="highlighter-rouge">postman</code>. Hierzu muss neben der Angabe der Test-Url ein Authorization-Token erstellt und mit dem Request übergeben werden.</p>
+<p>um den Zugriffsschutz zu testen, nutze ich <code class="language-plaintext highlighter-rouge">postman</code>. Hierzu muss neben der Angabe der Test-Url ein Authorization-Token erstellt und mit dem Request übergeben werden.</p>
 
 <p>Hierzu sind folgende Angaben im Fenster für Access Token nötig:</p>
 
@@ -490,9 +490,9 @@
 
 <p>Nach dem Klick auf Request Token, sollte die gehostete Anmeldeseite von AWS Cognito erscheinen. In diesem Fenster muss dann die in Cognito hinterlegten Zugangsdaten (Diese müssen Sie noch in Ihrem Benutzerpool anlegen) eingeben und sich anmelden.</p>
 
-<p>Die geschützte Url <code class="highlighter-rouge">http://localhost:3000/about</code> sollte nur mit einem gültigen Access Token ein Ergebnis zurückliefern.</p>
+<p>Die geschützte Url <code class="language-plaintext highlighter-rouge">http://localhost:3000/about</code> sollte nur mit einem gültigen Access Token ein Ergebnis zurückliefern.</p>
 
-<p>Im Request Object <code class="highlighter-rouge">req</code> wird zudem automatisch das verifizierte <code class="highlighter-rouge">user</code>-object bereitgestellt.</p>
+<p>Im Request Object <code class="language-plaintext highlighter-rouge">req</code> wird zudem automatisch das verifizierte <code class="language-plaintext highlighter-rouge">user</code>-object bereitgestellt.</p>
 
 <div class="col d-flex align-items-center justify-content-center">
     <img src="/assets/images/posts/web-api-nodejs-aws-cognito/aws-cognito-express-request-user-object.png" class="img-fluid center-block border border-dark" />

@@ -9,7 +9,7 @@
     <link type="application/atom+xml" rel="alternate" href="http://www.behuf.de/feed.xml" title="behuf" />
     <!-- Begin Jekyll SEO tag v2.6.1 -->
 <title>Entkoppeln Sie Ihre Benutzerauthentifizierung | behuf</title>
-<meta name="generator" content="Jekyll v3.8.7" />
+<meta name="generator" content="Jekyll v3.9.0" />
 <meta property="og:title" content="Entkoppeln Sie Ihre Benutzerauthentifizierung" />
 <meta property="og:locale" content="DE" />
 <meta name="description" content="Die Authentifizierung eines Benutzers ist ein zentraler Bestandteil jeder modernen und sicheren Softwarelösung." />
@@ -24,10 +24,10 @@
 <!-- End Jekyll SEO tag -->
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="/assets/css/bootstrap.css">
-    <link rel="stylesheet" href="/assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/bootstrap.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
     <script src="https://cdn.rawgit.com/christian-fei/Simple-Jekyll-Search/master/dest/simple-jekyll-search.min.js"></script>
-    <link rel="icon" type="image/png" href="/assets/images/favicon.png">
+    <link rel="icon" type="image/png" href="assets/images/favicon.png">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.css" />
 </head>
     <body  style="max-width: 1750px !important;">
@@ -414,7 +414,7 @@
 
 <p>um hier nur einige Themen zu nennen. Dieses Themenfeld in die Tiefe gedacht, kann ebenso auch komplex werden und umfangreiche Ausmaße annehmen, wenn es um verteile Systeme geht und auch darum die neuesten Technologien zum Einsatz zu bringen.</p>
 
-<p>Es wäre also wichtig an dieser Stelle  diesen Bereich autark von der zu lösenden Software zu betrachten. Typischerweise sollte es egal sein, welche Software einen authentifizierten Benutzer benötigt. Die Dienststelle für die Benutzer-Authentifizierung sollte als ein separates “Modul” bzw. Dienst diese Aufgabe übernehmen. Die Softwaremodule, die diesen Dienst in Anspruch nehmen wollen bzw. ihre Funktionalität nur authentifizierten Benutzern zur Verfügung stellen wollen, müssen dann nur noch bei der Authentifizierungsstelle die “Echtheit” der ihnen übergebenen “Eintrittskarte” des Benutzers erfragen, sofern nötig. Somit lässt sich die Anmeldung separat behandeln und muss nicht für jede neu zu entwickelnde Softwarelösung neu erdacht und entwickelt werden. <strong>Die Grundprämisse in diesem Architekturansatz ist das Vertrauensverhältnis zwischen den <code class="highlighter-rouge">einzelnen Softwaremodulen</code> und die <code class="highlighter-rouge">Authentifizierungsstelle</code>.</strong></p>
+<p>Es wäre also wichtig an dieser Stelle  diesen Bereich autark von der zu lösenden Software zu betrachten. Typischerweise sollte es egal sein, welche Software einen authentifizierten Benutzer benötigt. Die Dienststelle für die Benutzer-Authentifizierung sollte als ein separates “Modul” bzw. Dienst diese Aufgabe übernehmen. Die Softwaremodule, die diesen Dienst in Anspruch nehmen wollen bzw. ihre Funktionalität nur authentifizierten Benutzern zur Verfügung stellen wollen, müssen dann nur noch bei der Authentifizierungsstelle die “Echtheit” der ihnen übergebenen “Eintrittskarte” des Benutzers erfragen, sofern nötig. Somit lässt sich die Anmeldung separat behandeln und muss nicht für jede neu zu entwickelnde Softwarelösung neu erdacht und entwickelt werden. <strong>Die Grundprämisse in diesem Architekturansatz ist das Vertrauensverhältnis zwischen den <code class="language-plaintext highlighter-rouge">einzelnen Softwaremodulen</code> und die <code class="language-plaintext highlighter-rouge">Authentifizierungsstelle</code>.</strong></p>
 
 <p>Dieser Ansatz der Entkoppelung lässt sich vereinfacht wie folgt visuell darstellen:</p>
 
@@ -422,13 +422,13 @@
     <img src="/assets/images/posts/benutzerauthentifizierung/diagramm-benutzerauthentifizierung.png" class="img-fluid center-block" />
 </div>
 
-<p>Bei den Softwaremodulen <code class="highlighter-rouge">Zeiterfassung</code> und <code class="highlighter-rouge">Abrechnung</code> handelt es sich um zwei autark und voneinander unabhängigen Softwaremodulen mit separaten Datenbanksystemen. Jedoch und das ist der entscheidender Punkt, vertrauen sie jeweils derselben Authentifizierungsstelle bzw. -dienst. Ein Benutzer, der sich über das Module <code class="highlighter-rouge">Benutzeranmeldung</code> einloggt, bekommt nach erfolgreicher Verifizierung ein “Ticket” übergeben. Mit diesem Ticket kann sich der Benutzer sowohl in der Zeiterfassung als auch in der Abrechnung anmelden und mit den Softwareprodukten arbeiten, obwohl diese zwei Systeme voneinander nichts wissen.</p>
+<p>Bei den Softwaremodulen <code class="language-plaintext highlighter-rouge">Zeiterfassung</code> und <code class="language-plaintext highlighter-rouge">Abrechnung</code> handelt es sich um zwei autark und voneinander unabhängigen Softwaremodulen mit separaten Datenbanksystemen. Jedoch und das ist der entscheidender Punkt, vertrauen sie jeweils derselben Authentifizierungsstelle bzw. -dienst. Ein Benutzer, der sich über das Module <code class="language-plaintext highlighter-rouge">Benutzeranmeldung</code> einloggt, bekommt nach erfolgreicher Verifizierung ein “Ticket” übergeben. Mit diesem Ticket kann sich der Benutzer sowohl in der Zeiterfassung als auch in der Abrechnung anmelden und mit den Softwareprodukten arbeiten, obwohl diese zwei Systeme voneinander nichts wissen.</p>
 
 <h2 id="basistechnologie-und-mögliche-implementierungsansätze">Basistechnologie und mögliche Implementierungsansätze</h2>
 
-<p>Technologisch betrachtet kann die <code class="highlighter-rouge">OAuth2</code> in der Kombination mit <code class="highlighter-rouge">OpenId Connect</code> als eine Basistechnologie für einen solchen zentralen und integrativen Authentifizierungsansatz genutzt werden. Es gibt hierzu auch für unterschiedliche Entwicklungsplattformen bereits gute und bewährte Implementierungen und Bibliotheken, die genutzt und in Softwareprojekten integriert werden können.</p>
+<p>Technologisch betrachtet kann die <code class="language-plaintext highlighter-rouge">OAuth2</code> in der Kombination mit <code class="language-plaintext highlighter-rouge">OpenId Connect</code> als eine Basistechnologie für einen solchen zentralen und integrativen Authentifizierungsansatz genutzt werden. Es gibt hierzu auch für unterschiedliche Entwicklungsplattformen bereits gute und bewährte Implementierungen und Bibliotheken, die genutzt und in Softwareprojekten integriert werden können.</p>
 
-<p>Ebenso ist es wichtig zwischen der <code class="highlighter-rouge">Authentifizierung</code> und <code class="highlighter-rouge">Autorisierung</code> eines Benutzers zu unterscheiden. Während die Authentifizierung sich mit der reinen “Identitätsprüfung” befasst, geht es bei der Autorisierung um Berechtigungsprüfungen innerhalb einer Softwarelogik für einen bereits authentifizierten Benutzer. Der in diesem Artikel beschriebener Ansatz beschränkt sich ausschließlich auf die Authentifizierung eines Benutzers und behandelt somit nicht die Autorisierung.</p>
+<p>Ebenso ist es wichtig zwischen der <code class="language-plaintext highlighter-rouge">Authentifizierung</code> und <code class="language-plaintext highlighter-rouge">Autorisierung</code> eines Benutzers zu unterscheiden. Während die Authentifizierung sich mit der reinen “Identitätsprüfung” befasst, geht es bei der Autorisierung um Berechtigungsprüfungen innerhalb einer Softwarelogik für einen bereits authentifizierten Benutzer. Der in diesem Artikel beschriebener Ansatz beschränkt sich ausschließlich auf die Authentifizierung eines Benutzers und behandelt somit nicht die Autorisierung.</p>
 
 <h2 id="auslagern-der-implementierung">Auslagern der Implementierung</h2>
 

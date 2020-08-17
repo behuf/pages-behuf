@@ -9,7 +9,7 @@
     <link type="application/atom+xml" rel="alternate" href="http://www.behuf.de/feed.xml" title="behuf" />
     <!-- Begin Jekyll SEO tag v2.6.1 -->
 <title>Ein neue Webseite mit Jekyll | behuf</title>
-<meta name="generator" content="Jekyll v3.8.7" />
+<meta name="generator" content="Jekyll v3.9.0" />
 <meta property="og:title" content="Ein neue Webseite mit Jekyll" />
 <meta property="og:locale" content="DE" />
 <meta name="description" content="Die Idee war ein Webauftritt zu entwickeln. Etwas Schlichtes und ohne viel Schnickschnack. Der erste Gedanke war, die Seite in Auftrag zu geben. Nach Recherchen hat es nicht mehr lange gedauert, bis ich von der Idee der Beauftragung Abstand genommen habe." />
@@ -24,10 +24,10 @@
 <!-- End Jekyll SEO tag -->
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="/assets/css/bootstrap.css">
-    <link rel="stylesheet" href="/assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/bootstrap.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
     <script src="https://cdn.rawgit.com/christian-fei/Simple-Jekyll-Search/master/dest/simple-jekyll-search.min.js"></script>
-    <link rel="icon" type="image/png" href="/assets/images/favicon.png">
+    <link rel="icon" type="image/png" href="assets/images/favicon.png">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.css" />
 </head>
     <body  style="max-width: 1750px !important;">
@@ -419,16 +419,16 @@ Nach Recherchen hat es nicht mehr lange gedauert, bis ich von der Idee der Beauf
 
 <p>Für den Zweck Blogeinträge zu erstellen und einige einfache Präsentationsseiten mit relativ überschaubaren Textinhalten zu hinterlegen, fand ich ein CMS System zu überladen. Überladen, weil es viele Zusatzfunktionen eben nicht benötigt werden und ein solches System eben “installiert” und ggf. auch “administriert” werden müsste. Übertragung  zu anderen Hosting-Providern wäre ebenso ein Thema für den Fall, dass ich den Hosting-Provider wechseln sollte. <strong>Meine Idee war eine möglichst einfache und trotzdem noch dynamische Form der Seitenerstellung mit möglichst wenigen Abhängigkeiten (Datenbank, Hosting-Provider, Plattform, usw.)</strong>.</p>
 
-<p>Die Idee die Seite statisch zusammen zu setzen kam mir nach dem ich das Tool <code class="highlighter-rouge">Jekyll</code> zufällig kennengerlernt habe. Nach einigen Tests und kurze Einarbeitung in die Idee des <code class="highlighter-rouge">Jekyll</code> als statischen Seitengenerator hab ich mich dafür entschieden meine Webseite mit diesem System zusammen zu stellen.</p>
+<p>Die Idee die Seite statisch zusammen zu setzen kam mir nach dem ich das Tool <code class="language-plaintext highlighter-rouge">Jekyll</code> zufällig kennengerlernt habe. Nach einigen Tests und kurze Einarbeitung in die Idee des <code class="language-plaintext highlighter-rouge">Jekyll</code> als statischen Seitengenerator hab ich mich dafür entschieden meine Webseite mit diesem System zusammen zu stellen.</p>
 
-<p>Aus meiner bescheidenen Sicht sprechen folgende Vorteile für <code class="highlighter-rouge">Jekyll</code>:</p>
+<p>Aus meiner bescheidenen Sicht sprechen folgende Vorteile für <code class="language-plaintext highlighter-rouge">Jekyll</code>:</p>
 
 <ul>
   <li>Der Fokus liegt absolut auf den Inhalt und Struktur der Seite</li>
   <li>Sowohl die Struktur als auch der Inhalt lässt sich auf Dateisystem gut und einfach abbilden und es wird kein zusätzliches Overhead benötigt.</li>
-  <li>Das Template System kann durch die Möglichkeit der Vererbung (<code class="highlighter-rouge">_layouts</code>) und Komposition von Teilinhalten (<code class="highlighter-rouge">include</code>) auf einer Seite sehr flexibel und erweiterbar umgesetzt werden.</li>
+  <li>Das Template System kann durch die Möglichkeit der Vererbung (<code class="language-plaintext highlighter-rouge">_layouts</code>) und Komposition von Teilinhalten (<code class="language-plaintext highlighter-rouge">include</code>) auf einer Seite sehr flexibel und erweiterbar umgesetzt werden.</li>
   <li>Blog-Einträge können über das System einfach und übersichtlich abgebildet werden.</li>
-  <li><code class="highlighter-rouge">Sass</code>, <code class="highlighter-rouge">Liquid</code> oder <code class="highlighter-rouge">Markdown</code> sind gängige Standards im Webbereich und werden von <code class="highlighter-rouge">Jekyll</code> autmatisch unterstützt.</li>
+  <li><code class="language-plaintext highlighter-rouge">Sass</code>, <code class="language-plaintext highlighter-rouge">Liquid</code> oder <code class="language-plaintext highlighter-rouge">Markdown</code> sind gängige Standards im Webbereich und werden von <code class="language-plaintext highlighter-rouge">Jekyll</code> autmatisch unterstützt.</li>
   <li>Die Seite kann durch die Anbindung an Github-Pages automatisiert von GitHub gehostet und als Repository historisierbar gesichert und sogar gehostet werden.</li>
   <li>Zweckbezogen benötige ich damit kein Datenbanksystem im Hintergrund.</li>
   <li>Sollte der Bedarf an einer Erweiterung und Umstellung auf ein CMS System doch noch bestehen, können die Templates und Inhalte relativ leicht auf ein anderes System übertragen und wiederverwendet werden.</li>
@@ -442,7 +442,7 @@ Nach Recherchen hat es nicht mehr lange gedauert, bis ich von der Idee der Beauf
   <li>Fehlende Möglichkeit Benutzerinteraktionen wie Kontaktformulare oder Kommentarfunktion zu programmieren. (Hierzu kann man allerdings auf extern gehostete Lösungen zurückgreifen)</li>
   <li>Allgemeine fehlende serverseitige Verarbeitung von Geschäftslogik. (Ein Shop-System würde ich vermutlich damit nicht aufbauen)</li>
   <li>Technisches Verständnis für die Erstellung und Ausrollung der Seite wird benötigt.</li>
-  <li>Installation und Einrichtung von <code class="highlighter-rouge">Ruby</code> und <code class="highlighter-rouge">Jekyll</code> ging anfangs nicht ganz reibungslos. Nach anfänglichen Schwierigkeiten jedoch, war es relativ klar und problemlos.</li>
+  <li>Installation und Einrichtung von <code class="language-plaintext highlighter-rouge">Ruby</code> und <code class="language-plaintext highlighter-rouge">Jekyll</code> ging anfangs nicht ganz reibungslos. Nach anfänglichen Schwierigkeiten jedoch, war es relativ klar und problemlos.</li>
 </ul>
 
 <h2 id="webinterface-und-browseroberfläche">Webinterface und Browseroberfläche</h2>
@@ -452,10 +452,10 @@ Nach Recherchen hat es nicht mehr lange gedauert, bis ich von der Idee der Beauf
 <p>Für den Aufbau der Internetseite greife ich auf folgende Bibliotheken zu:</p>
 
 <ul>
-  <li><strong><code class="highlighter-rouge">Bootstrap</code></strong>: Eine weit verbreitete CSS Bibliothek für die Erstellung von Endgeräte-unabhängiges Layout. Der Mobile-First Ansatz und die große Bandbereite der Nutzung dieser Bibliothek hat mich überzeugt.</li>
-  <li><strong><code class="highlighter-rouge">JQuery</code></strong>: Quasi standard im Webbereich, wenn es darum geht DOM im Browser zu manipulieren. Langjährig bewährt und von vielen tausenden Web-Entwicklern und Websites erfolgreich im Einsatz.</li>
-  <li><strong><code class="highlighter-rouge">Font Awesome</code></strong>: CSS basierte Icons kann ich damit schnell und deklarativ nutzen.</li>
-  <li><strong><code class="highlighter-rouge">Google Fonts</code></strong>: Schöne Fonts, einfache Einbindung</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">Bootstrap</code></strong>: Eine weit verbreitete CSS Bibliothek für die Erstellung von Endgeräte-unabhängiges Layout. Der Mobile-First Ansatz und die große Bandbereite der Nutzung dieser Bibliothek hat mich überzeugt.</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">JQuery</code></strong>: Quasi standard im Webbereich, wenn es darum geht DOM im Browser zu manipulieren. Langjährig bewährt und von vielen tausenden Web-Entwicklern und Websites erfolgreich im Einsatz.</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">Font Awesome</code></strong>: CSS basierte Icons kann ich damit schnell und deklarativ nutzen.</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">Google Fonts</code></strong>: Schöne Fonts, einfache Einbindung</li>
 </ul>
 
 <h2 id="fazit">Fazit</h2>
